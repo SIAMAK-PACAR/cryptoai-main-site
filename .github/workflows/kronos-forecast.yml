@@ -9,7 +9,7 @@ on:
   push:
     branches: [feature/ai-forecast]
 permissions:
-  contents: read
+  contents: write
   id-token: write
 concurrency:
   group: ai-forecast
@@ -42,7 +42,7 @@ jobs:
         env:
           KRONOS_SRC: kronos-src
           SITE_URL: https://cryptoai-main-site.onrender.com
-        run: python kronos_job/forecast.py
+        run: python kronos_job/forecast.py 2>&1 | tee run.log
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -50,3 +50,9 @@ jobs:
           path: forecast.json
           if-no-files-found: ignore
           retention-days: 3
+      - name: TEMP save test log to a branch
+        if: always() && github.event_name == 'push'
+        run: |
+          mkdir /tmp/l && cp run.log forecast.json /tmp/l/ 2>/dev/null || true
+          git config user.name ci && git config user.email ci@example.com
+          git checkout --orphan forecast-ci-log && git rm -rqf . && cp /tmp/l/* . && git add -A && git commit -qm log && git push -f origin forecast-ci-log

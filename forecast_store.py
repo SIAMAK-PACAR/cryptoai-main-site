@@ -16,8 +16,10 @@ import time
 
 ISSUER = "https://token.actions.githubusercontent.com"
 AUDIENCE = "cryptoai-forecast"
-REPO = os.environ.get("FORECAST_REPO", "09127223271Se/cryptoai-main-site").lower()
-WORKFLOW = ".github/workflows/kronos-forecast.yml@refs/heads/main"
+# This repo, by GitHub's numeric id (survives renames) or by its current name.
+REPO_ID = os.environ.get("FORECAST_REPO_ID", "1431990166")
+REPO_NAMES = {"siamak-pacar/cryptoai-main-site"}
+WORKFLOW = "/.github/workflows/kronos-forecast.yml@refs/heads/main"
 PATH = os.environ.get("FORECAST_FILE", "/tmp/cryptoai_forecast.json")
 MAX_AGE_H = 6  # older than this is hidden from visitors
 
@@ -48,9 +50,10 @@ def verify(auth_header: str) -> dict:
     token = auth_header.split(" ", 1)[1].strip()
     key = _jwks.get_signing_key_from_jwt(token).key
     claims = jwt.decode(token, key, algorithms=["RS256"], audience=AUDIENCE, issuer=ISSUER, leeway=60)
-    if (claims.get("repository") or "").lower() != REPO:
+    repo = (claims.get("repository") or "").lower()
+    if str(claims.get("repository_id")) != REPO_ID and repo not in REPO_NAMES:
         raise PermissionError("wrong repository")
-    if (claims.get("workflow_ref") or "").lower() != f"{REPO}/{WORKFLOW}".lower():
+    if (claims.get("workflow_ref") or "").lower() != f"{repo}{WORKFLOW}":
         raise PermissionError("wrong workflow")
     return claims
 
