@@ -1,0 +1,50 @@
+# Hourly 24h AI price forecast (open-source Kronos model). Runs on GitHub's free runners, NOT on Render,
+# so the site stays light. The result is sent to /api/forecast/ingest; the site checks GitHub's signed
+# OIDC token, so there is no password or key to set anywhere.
+name: ai-forecast
+on:
+  schedule:
+    - cron: "7 * * * *"
+  workflow_dispatch:
+permissions:
+  contents: read
+  id-token: write
+concurrency:
+  group: ai-forecast
+  cancel-in-progress: true
+jobs:
+  forecast:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: kronos_job/requirements.txt
+      - name: Get the Kronos model code
+        run: |
+          git clone --depth 1 https://github.com/shiyu-coder/Kronos kronos-src
+          git -C kronos-src log -1 --format='Kronos commit %h %cs'
+      - name: Install
+        run: |
+          pip install torch --index-url https://download.pytorch.org/whl/cpu
+          pip install -r kronos_job/requirements.txt
+      - name: Cache model weights
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/huggingface
+          key: hf-kronos-small-v1
+      - name: Forecast and send to the site
+        env:
+          KRONOS_SRC: kronos-src
+          SITE_URL: https://cryptoai-main-site.onrender.com
+        run: python kronos_job/forecast.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: forecast
+          path: forecast.json
+          if-no-files-found: ignore
+          retention-days: 3

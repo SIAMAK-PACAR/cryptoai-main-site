@@ -1,0 +1,28 @@
+{# 24h AI forecast card. Data comes from /api/forecast (hourly). Direction + likely range only, no buy/sell. #}
+{% set EN = lang == 'en' %}
+<section class="panel fc" id="fc" hidden aria-labelledby="fc-title">
+  <div class="ph">
+    <h2 id="fc-title">{% if EN %}AI forecast · next 24 hours{% else %}پیش‌بینی ۲۴ ساعتهٔ هوش مصنوعی{% endif %}</h2>
+    <div class="fc-tabs" role="tablist" id="fc-tabs"></div>
+  </div>
+  <div class="pb">
+    <div class="fc-top">
+      <div class="fc-bias" id="fc-bias"></div>
+      <dl class="fc-stats">
+        <div><dt>{% if EN %}Price now{% else %}قیمت فعلی{% endif %}</dt><dd class="num" id="fc-last">—</dd></div>
+        <div><dt>{% if EN %}Middle path in 24h{% else %}مسیر میانی تا ۲۴ ساعت{% endif %}</dt><dd class="num" id="fc-chg">—</dd></div>
+        <div><dt>{% if EN %}Paths ending higher{% else %}مسیرهایی که بالاتر تمام می‌شوند{% endif %}</dt><dd class="num" id="fc-up">—</dd></div>
+        <div><dt>{% if EN %}Likely range (80%){% else %}محدودهٔ محتمل (۸۰٪){% endif %}</dt><dd class="num" id="fc-range">—</dd></div>
+      </dl>
+    </div>
+    <svg class="fc-chart" id="fc-chart" viewBox="0 0 600 200" preserveAspectRatio="none" role="img" aria-label="{% if EN %}Last 48 hours and the forecast range{% else %}۴۸ ساعت گذشته و محدودهٔ پیش‌بینی{% endif %}"></svg>
+    <div class="fc-legend">
+      <span><i class="l-hist"></i>{% if EN %}Last 48h{% else %}۴۸ ساعت گذشته{% endif %}</span>
+      <span><i class="l-med"></i>{% if EN %}Middle path{% else %}مسیر میانی{% endif %}</span>
+      <span><i class="l-band"></i>{% if EN %}80% of paths{% else %}۸۰٪ مسیرها{% endif %}</span>
+    </div>
+    <p class="fc-note">{% if EN %}Every hour our AI model builds many possible price paths from hourly candles. This shows the likely direction only. It is not a buy or sell signal.{% else %}مدل هوش مصنوعی هر ساعت از روی کندل‌های ساعتی، ده‌ها مسیر احتمالی قیمت را می‌سازد. این فقط جهت احتمالی بازار است و سیگنال خرید یا فروش نیست.{% endif %} <span id="fc-age"></span></p>
+  </div>
+</section>
+<script>window.FC_EN = {{ 'true' if EN else 'false' }};</script>
+<script src="{{ asset('js/forecast.js') }}" defer></script>

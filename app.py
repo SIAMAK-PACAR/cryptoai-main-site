@@ -25,6 +25,11 @@ import telegram_bot
 import trader_engine
 import tts
 
+try:  # optional add-on: the 24h AI forecast must never take the site down
+    import forecast_store
+except Exception:  # pragma: no cover
+    forecast_store = None
+
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 BUSINESS_PATH = os.path.abspath(os.path.join(BASE_DIR, "..", "crypto-business"))
 if os.path.isdir(BUSINESS_PATH):
@@ -412,7 +417,30 @@ def health():
         "post_card_persian": _card_fa(),
         "market_data_errors": dict(list(trader_engine.last_errors.items())[:5]),
         "news": news_live.status(),
+        "forecast": forecast_store.status() if forecast_store else None,
     })
+
+
+# ---------- 24h AI forecast (computed hourly by a GitHub Action, never on this server) ----------
+@app.route("/api/forecast")
+def api_forecast():
+    d = forecast_store.latest() if forecast_store else None
+    r = jsonify({"ok": bool(d), "forecast": d})
+    r.headers["Cache-Control"] = "public, max-age=120"
+    return r
+
+
+@app.route("/api/forecast/ingest", methods=["POST"])
+def api_forecast_ingest():
+    if not forecast_store or (request.content_length or 0) > 300_000:
+        return jsonify({"ok": False}), 413
+    try:
+        forecast_store.ingest(request.headers.get("Authorization", ""), request.get_json(force=True, silent=True) or {})
+    except PermissionError:
+        return jsonify({"ok": False}), 403
+    except Exception:
+        return jsonify({"ok": False}), 400
+    return jsonify({"ok": True})
 
 
 @app.route("/api/ai/status")
