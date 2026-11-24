@@ -64,6 +64,8 @@
       $("fc-tabs").innerHTML = syms.map(function (s) { return '<button type="button" role="tab" data-s="' + s + '">' + s + "</button>"; }).join("");
       Array.prototype.forEach.call($("fc-tabs").children, function (btn) { btn.onclick = function () { show(btn.dataset.s); }; });
       box.hidden = false;
+      var wait = document.getElementById("fc-wait");
+      if (wait) wait.hidden = true;
       show(data.coins[cur] ? cur : syms[0]);
     }).catch(function () {});
   }

@@ -42,10 +42,10 @@ app.config.update(SESSION_COOKIE_HTTPONLY=True, SESSION_COOKIE_SAMESITE="Lax",
 if trader_engine.trader_bp is not None:
     app.register_blueprint(trader_engine.trader_bp)      # /api/trader/scan, /api/trader/setup/<coin>
 
-PAGES = {"search": "/search", "home": "/", "pro": "/pro", "radio": "/radio", "trader": "/trader", "analysis": "/analysis", "sales": "/sales", "admin": "/admin"}
-PAGES_EN = {"search": "/en/search", "home": "/en", "pro": "/en/pro", "radio": "/en/radio", "trader": "/en/trader", "analysis": "/en/analysis",
+PAGES = {"forecast": "/", "search": "/search", "home": "/desk", "pro": "/pro", "radio": "/radio", "trader": "/trader", "analysis": "/analysis", "sales": "/sales", "admin": "/admin"}
+PAGES_EN = {"forecast": "/en", "search": "/en/search", "home": "/en/desk", "pro": "/en/pro", "radio": "/en/radio", "trader": "/en/trader", "analysis": "/en/analysis",
             "sales": "/sales", "admin": "/admin"}
-PUBLIC = ("home", "pro", "radio", "trader", "analysis", "search")
+PUBLIC = ("forecast", "home", "pro", "radio", "trader", "analysis", "search")
 
 
 # ---------- admin login (password lives only in Render: ADMIN_PASSWORD) ----------
@@ -127,6 +127,11 @@ def _boot_agent():
 
 # ---------- Pages ----------
 @app.route("/")
+def forecast_page():
+    return page("forecast", "forecast.html")
+
+
+@app.route("/desk")
 def home():
     return page("home", "trader.html")
 
@@ -327,6 +332,11 @@ def api_coin(sym):
 # ---------- English site ----------
 @app.route("/en")
 @app.route("/en/")
+def forecast_en():
+    return page("forecast", "forecast.html", "en")
+
+
+@app.route("/en/desk")
 def home_en():
     return page("home", "trader.html", "en")
 
