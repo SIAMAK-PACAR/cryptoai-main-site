@@ -90,6 +90,17 @@
       <a class="btn" href="/api/health" target="_blank" rel="noopener">وضعیت فنی سرور</a>
     </div></div>
   </section>
+
+  <section class="panel">
+    <div class="ph"><h2>شورت دوزبانهٔ یوتیوب</h2></div>
+    <div class="pb">
+      <p class="status">هر روز همراه بستهٔ شبکه‌های اجتماعی، یک شورت ۳۰ ثانیه‌ای (فارسی و بعد انگلیسی) از مهم‌ترین خبر ساخته و به یوتیوب فرستاده می‌شود. شرطش این است که در Render مقدار MAKE_YT_WEBHOOK گذاشته شده باشد.</p>
+      <div class="row">
+        <button class="btn" id="yt-now">ساخت و ارسال یک شورت همین الان</button>
+        <span class="status" id="st3" role="status"></span>
+      </div>
+    </div>
+  </section>
 </div>
 {% endblock %}
 {% block scripts %}
@@ -98,6 +109,13 @@ document.getElementById("brief-now").onclick = async () => {
   const st = document.getElementById("st2"); st.textContent = "در حال ارسال…";
   try { const j = await (await fetch("/api/pro/brief", { method: "POST" })).json(); st.textContent = j.ok ? "خلاصه به کانال Pro فرستاده شد؛ نسخهٔ کوتاهش برای تأیید به تلگرام شما آمد." : "ارسال نشد؛ خبرهای زنده هنوز آماده نیستند یا کانال تنظیم نشده."; }
   catch (e) { st.textContent = "سرور جواب نداد"; }
+};
+document.getElementById("yt-now").onclick = async () => {
+  const b = document.getElementById("yt-now"), st = document.getElementById("st3");
+  b.disabled = true; st.textContent = "در حال شروع…";
+  try { const j = await (await fetch("/admin/youtube-test", { method: "POST" })).json(); st.textContent = j.ok ? "شروع شد؛ حدود یک دقیقه دیگر ویدیو به Make و یوتیوب می‌رسد." : ("خطا: " + j.error); }
+  catch (e) { st.textContent = "سرور جواب نداد"; }
+  b.disabled = false;
 };
 document.getElementById("draft").onclick = async () => {
   const b = document.getElementById("draft"), st = document.getElementById("st");

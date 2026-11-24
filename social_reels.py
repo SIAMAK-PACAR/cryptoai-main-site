@@ -104,10 +104,12 @@ def send_reels(news: dict, assets: list) -> str:
         return "Telegram admin chat is not configured."
     completed = []
     errors = []
+    videos = {}
     for lang in ("fa", "en"):
         try:
             poster = social.compose(pc.render_card(news, assets, lang), news, lang, 1080, 1920)
             video = render_video(poster, news, lang)
+            videos[lang] = video
             title = news.get("t") if lang == "fa" else news.get("en_t") or news.get("t")
             message = ("🎬 ریلز آماده برای اینستاگرام و تیک‌تاک (فارسی)" if lang == "fa" else
                        "🎬 Ready-to-post Instagram Reel / TikTok (English)")
@@ -125,6 +127,15 @@ def send_reels(news: dict, assets: list) -> str:
             errors.append(f"{lang}: {str(exc)[:150]}")
     if errors:
         tb.call("sendMessage", chat_id=admin, text="⚠️ خطای ساخت ریلز: " + " | ".join(errors))
+    # Daily bilingual YouTube Short (only when MAKE_YT_WEBHOOK is set; never breaks the reels above).
+    try:
+        import youtube_shorts
+        if youtube_shorts.ready() and "fa" in videos and "en" in videos:
+            note = youtube_shorts.publish(videos["fa"], videos["en"], news, assets)
+            if note:
+                tb.call("sendMessage", chat_id=admin, text=note)
+    except Exception as exc:
+        errors.append(f"youtube: {str(exc)[:150]}")
     return ("ریلز " + ", ".join(completed) + " فرستاده شد." if completed else
             "ساخت ریلز انجام نشد: " + " | ".join(errors))
 
