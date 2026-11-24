@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}CryptoAI · 24h forecast{% endblock %}
+{% block content %}
+<div class="wrap narrow" style="margin-inline:auto">
+  <div class="page-head" style="margin-bottom:14px">
+    <div>
+      <h1>The market <span>in the next 24 hours</span></h1>
+      <p>Every hour our AI works out the likely direction of Bitcoin, Ethereum, Solana and XRP for the next 24 hours.</p>
+    </div>
+  </div>
+  {% include "_forecast.html" %}
+  <section class="panel" id="fc-wait" style="margin-bottom:16px"><div class="pb" style="color:var(--muted)">This hour's forecast is being prepared. Check back in a few minutes.</div></section>
+  <div style="display:flex;flex-wrap:wrap;gap:10px">
+    <a class="btn primary" href="{{ link('home') }}" style="text-decoration:none">Open the Desk →</a>
+    <a class="btn" href="{{ link('analysis') }}" style="text-decoration:none">News analysis</a>
+  </div>
+</div>
+{% endblock %}

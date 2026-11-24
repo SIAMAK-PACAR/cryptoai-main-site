@@ -9,7 +9,7 @@ from jinja2 import Environment, FileSystemLoader
 
 BASE = os.path.dirname(os.path.abspath(__file__))
 DIST = os.path.join(BASE, "dist")
-PAGES = {"home": ("brief.html", "index.html"), "radio": ("index.html", "radio.html"), "trader": ("trader.html", "trader.html"),
+PAGES = {"forecast": ("forecast.html", "forecast.html"), "home": ("brief.html", "index.html"), "radio": ("index.html", "radio.html"), "trader": ("trader.html", "trader.html"),
          "analysis": ("analysis.html", "analysis.html"), "sales": ("sales.html", "sales.html"), "admin": ("index.html", "index.html"), "pro": ("index.html", "index.html"), "search": ("index.html", "index.html")}
 
 env = Environment(loader=FileSystemLoader(os.path.join(BASE, "templates")), autoescape=True)
