@@ -11,11 +11,11 @@ permissions:
   id-token: write
 concurrency:
   group: ai-forecast
-  cancel-in-progress: true
+  cancel-in-progress: false
 jobs:
   forecast:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5

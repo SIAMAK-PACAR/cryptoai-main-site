@@ -32,7 +32,7 @@ COINS = [  # symbol, Kraken pair, OKX instId, Coinbase product
 ]
 LOOKBACK = 480          # hours of history fed to the model (max context is 512)
 PRED_LEN = 24           # forecast the next 24 hours
-SAMPLES = int(os.environ.get("KRONOS_SAMPLES", "30"))
+SAMPLES = int(os.environ.get("KRONOS_SAMPLES", "20"))
 MODEL = os.environ.get("KRONOS_MODEL", "NeoQuasar/Kronos-small")
 TOKENIZER = os.environ.get("KRONOS_TOKENIZER", "NeoQuasar/Kronos-Tokenizer-base")
 UA = {"User-Agent": "Mozilla/5.0 (compatible; CryptoAI-forecast/1.0)"}
