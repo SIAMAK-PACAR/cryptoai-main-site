@@ -5,3 +5,4 @@ gunicorn>=22.0
 edge-tts>=6.1.12
 Pillow>=10.3
 imageio-ffmpeg>=0.4.9
+PyJWT[crypto]>=2.8

@@ -110,3 +110,26 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .music-panel iframe{width:100%;height:152px;border:0;border-radius:10px;display:block}
 .music-x{position:absolute;top:-12px;inset-inline-start:-12px;width:28px;height:28px;border-radius:50%;border:1px solid var(--line);background:var(--panel-2);font-size:18px;line-height:1}
 @media (prefers-reduced-motion: reduce){.nav-music{animation:none!important}}
+
+/* ---------- 24h AI forecast card ---------- */
+.fc{margin-bottom:16px}
+.fc-tabs{display:flex;gap:4px}
+.fc-tabs button{background:transparent;border:1px solid var(--line);border-radius:9px;padding:5px 12px;min-height:36px;font-size:13px;color:var(--muted);font-family:var(--f-mono)}
+.fc-tabs button[aria-selected="true"]{color:var(--brand);border-color:var(--brand);background:var(--brand-soft)}
+.fc-top{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center}
+.fc-bias{display:grid;place-items:center;min-width:112px;padding:12px 14px;border-radius:14px;border:1px solid var(--line);text-align:center;font-weight:800;font-size:18px;line-height:1.3}
+.fc-bias small{display:block;font-size:12px;font-weight:500;color:var(--muted)}
+.fc-bias.up{color:var(--up);border-color:rgba(51,211,154,.45);background:rgba(51,211,154,.08)}
+.fc-bias.down{color:var(--down);border-color:rgba(255,106,95,.45);background:rgba(255,106,95,.08)}
+.fc-bias.flat{color:var(--mixed)}
+.fc-stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 16px}
+.fc-stats dt{font-size:12px;color:var(--muted)}
+.fc-stats dd{font-size:15px;font-weight:600}
+.fc-stats dd.up{color:var(--up)} .fc-stats dd.down{color:var(--down)}
+.fc-chart{width:100%;height:190px;display:block;background:var(--panel-2);border-radius:12px}
+.fc-legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12px;color:var(--muted)}
+.fc-legend i{display:inline-block;width:18px;height:0;vertical-align:middle;margin-inline-end:6px;border-top:2px solid var(--fg)}
+.fc-legend .l-med{border-top:2px dashed var(--signal)}
+.fc-legend .l-band{height:10px;border:0;background:var(--signal-soft);border-radius:3px}
+.fc-note{font-size:12.5px;color:var(--muted)}
+@media (max-width:560px){.fc-top{grid-template-columns:1fr}.fc-bias{min-width:0}}
