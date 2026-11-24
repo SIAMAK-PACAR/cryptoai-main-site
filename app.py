@@ -200,6 +200,45 @@ def social_media(key):
     return Response(data, mimetype="image/jpeg", headers={"Cache-Control": "no-store"})
 
 
+@app.route("/social/video/<key>.mp4")
+def social_video(key):
+    try:
+        import youtube_shorts
+        data = youtube_shorts.video_get(key)
+    except Exception:
+        data = None
+    if not data:
+        return "", 404
+    return Response(data, mimetype="video/mp4", headers={"Cache-Control": "no-store"})
+
+
+@app.route("/admin/youtube-test", methods=["POST"])
+@admin_required(api=True)
+def admin_youtube_test():
+    """Make one bilingual Short now (admin only), e.g. to set up or test the Make scenario."""
+    import youtube_shorts
+    if not youtube_shorts.ready():
+        return jsonify({"ok": False, "error": "MAKE_YT_WEBHOOK is not set in Render"}), 400
+
+    def run():
+        try:
+            import social
+            import social_reels
+            news, assets = social.pick_story()
+            if not news:
+                youtube_shorts._rt["last_error"] = "no news in the last 24h"
+                return
+            vids = {}
+            for lang in ("fa", "en"):
+                poster = social.compose(social_reels.pc.render_card(news, assets, lang), news, lang, 1080, 1920)
+                vids[lang] = social_reels.render_video(poster, news, lang)
+            youtube_shorts.publish(vids["fa"], vids["en"], news, assets)
+        except Exception as e:
+            youtube_shorts._rt["last_error"] = f"{type(e).__name__}: {e}"[:200]
+    threading.Thread(target=run, daemon=True).start()
+    return jsonify({"ok": True, "note": "started; check /api/health → youtube in ~1 minute"})
+
+
 # ---------- Analysis floor (trader page) ----------
 _floor_cache = {"at": 0.0, "data": None}
 
@@ -428,7 +467,16 @@ def health():
         "market_data_errors": dict(list(trader_engine.last_errors.items())[:5]),
         "news": news_live.status(),
         "forecast": forecast_store.status() if forecast_store else None,
+        "youtube": _yt_status(),
     })
+
+
+def _yt_status():
+    try:
+        import youtube_shorts
+        return youtube_shorts.status()
+    except Exception:
+        return None
 
 
 # ---------- 24h AI forecast (computed hourly by a GitHub Action, never on this server) ----------
