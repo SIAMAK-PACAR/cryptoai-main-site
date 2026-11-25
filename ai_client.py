@@ -9,6 +9,7 @@ If crypto-business/.env exists next to this folder, its values are loaded too.
 from __future__ import annotations
 
 import os
+import time
 import requests
 
 BUSINESS_ENV = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "crypto-business", ".env"))
@@ -65,12 +66,22 @@ def ask(prompt: str, json_mode: bool = False, max_tokens: int = 1500, timeout: i
             }
             if "gpt-oss" in model:      # reasoning models: keep thinking short so the answer fits
                 body["reasoning_effort"] = "low"
-                body["max_tokens"] = max_tokens + 1024
+                body["max_tokens"] = max_tokens + 512
             if json_mode:
                 body["response_format"] = {"type": "json_object"}
-            r = requests.post("https://api.groq.com/openai/v1/chat/completions",
-                              headers={"Authorization": f"Bearer {os.environ['GROQ_API_KEY']}"},
-                              json=body, timeout=timeout)
+            for attempt in range(3):   # free tier: a few requests per minute; wait as Groq asks, then retry
+                r = requests.post("https://api.groq.com/openai/v1/chat/completions",
+                                  headers={"Authorization": f"Bearer {os.environ['GROQ_API_KEY']}"},
+                                  json=body, timeout=timeout)
+                if r.status_code != 429 or attempt == 2:
+                    break
+                try:
+                    wait = float(r.headers.get("retry-after") or 0)
+                except ValueError:
+                    wait = 0
+                if not 0 < wait <= 30:
+                    break
+                time.sleep(wait + 1)
             if r.ok:
                 return r.json()["choices"][0]["message"]["content"]
             last = AIError("Rate limited by Groq." if r.status_code == 429 else f"Groq error {r.status_code}: {r.text[:300]}",

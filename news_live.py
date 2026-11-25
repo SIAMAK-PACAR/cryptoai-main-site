@@ -292,6 +292,8 @@ def _translate(items):
     Small batches so no answer is cut off; each headline is analysed once."""
     todo = [it for it in items if it["url"] not in _tr_cache]
     for k in range(0, len(todo), 6):
+        if k:
+            time.sleep(4)   # spread the calls: Groq's free tier allows only a few thousand tokens per minute
         batch = todo[k:k + 6]
         payload = [{"i": j, "title": it["title"], "desc": it["desc"][:240], "type": it.get("kind", "crypto")} for j, it in enumerate(batch)]
         prompt = (
