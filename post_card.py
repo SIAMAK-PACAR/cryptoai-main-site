@@ -565,7 +565,13 @@ def pick_news(seen: set, force: bool = False):
     b = news_live.get_brief()
     feed, assets = b.get("feed") or [], b.get("assets") or []
     now = time.time()
-    cand = [x for x in feed if x["source"]["url"] not in seen and now - (x.get("ts") or 0) < 6 * 3600]
+    try:   # important news goes to the paid Pro channel first; the public channel waits for its turn
+        import pro
+        ahead = pro.pro_head_start
+    except Exception:
+        ahead = lambda u: None  # noqa: E731
+    cand = [x for x in feed if x["source"]["url"] not in seen and now - (x.get("ts") or 0) < 6 * 3600
+            and not ahead(x["source"]["url"])]
     cand.sort(key=lambda x: (-(x.get("imp") or 1), -len([i for i in x.get("im") or [] if i.get("d")]), -(x.get("ts") or 0)))
     if not cand and force:
         cand = sorted(feed, key=lambda x: (-(x.get("imp") or 1), -(x.get("ts") or 0)))

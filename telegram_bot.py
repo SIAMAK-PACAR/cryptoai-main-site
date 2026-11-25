@@ -160,6 +160,20 @@ def _publish(lang, channel, n, assets, png=None, cap=None):
                 **({"reply_markup": btns} if btns else {}))["message_id"]
 
 
+def _pro_note(n: dict):
+    """A line for public posts of stories the Pro channel already had: shows what Pro members get."""
+    try:
+        import pro
+        if not pro.ready() or not pro.was_pro_first(n["source"]["url"]):
+            return None
+        hours = max(1, round(pro.HEAD_START_MIN / 60))
+        fa_h = str(hours).translate(str.maketrans("0123456789", "۰۱۲۳۴۵۶۷۸۹"))
+        return {"fa": f"⏱ اعضای <b>CryptoAI Pro</b> این خبر را {fa_h} ساعت زودتر گرفتند.",
+                "en": f"⏱ <b>CryptoAI Pro</b> members got this story {hours}h earlier."}
+    except Exception:
+        return None
+
+
 def draft_news_now(force: bool = False, breaking_only: bool = False) -> str:
     """Pick the most market-moving fresh story and draw its card.
     AUTO_PUBLISH on (default): post it to the channel at once and notify the admin (with a delete button).
@@ -171,6 +185,9 @@ def draft_news_now(force: bool = False, breaking_only: bool = False) -> str:
         return "خبر تازه‌ای برای پست نبود."
     c = cfg()
     cap = post_card.caption(n, assets)
+    note = _pro_note(n)
+    if note:
+        cap = (cap[:1024 - len(note["fa"]) - 2] + "\n\n" + note["fa"])
     try:
         png = post_card.render_card(n, assets)
     except Exception as e:
@@ -183,7 +200,11 @@ def draft_news_now(force: bool = False, breaking_only: bool = False) -> str:
             if not ch:
                 continue
             try:
-                mid = _publish(lang, ch, n, assets, png if lang == "fa" else None, cap if lang == "fa" else None)
+                cap_l = cap if lang == "fa" else None
+                if lang == "en" and note:
+                    en = post_card.caption_en(n, assets)
+                    cap_l = (en[:1024 - len(note["en"]) - 2] + "\n\n" + note["en"]) if en else None
+                mid = _publish(lang, ch, n, assets, png if lang == "fa" else None, cap_l)
                 done.append((lang, mid))
             except Exception as e:
                 _state["last_error"] = f"publish {lang}: {e}"[:200]
