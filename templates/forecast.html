@@ -8,7 +8,7 @@
       <p>هوش مصنوعی هر ساعت جهت احتمالی بیت‌کوین، اتریوم، سولانا و ریپل را برای ۲۴ ساعت آینده حساب می‌کند.</p>
     </div>
   </div>
-  {% include "_forecast_teaser.html" %}
+  {% if is_admin %}{% include "_forecast.html" %}{# site admin only: live forecast #}{% else %}{% include "_forecast_teaser.html" %}{% endif %}
   <div style="display:flex;flex-wrap:wrap;gap:10px">
     <a class="btn" href="{{ link('home') }}" style="text-decoration:none">میز تحلیل ←</a>
     <a class="btn" href="{{ link('analysis') }}" style="text-decoration:none">تحلیل خبر</a>

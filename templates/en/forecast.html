@@ -8,7 +8,7 @@
       <p>Every hour our AI works out the likely direction of Bitcoin, Ethereum, Solana and XRP for the next 24 hours.</p>
     </div>
   </div>
-  {% include "_forecast_teaser.html" %}
+  {% if is_admin %}{% include "_forecast.html" %}{# site admin only: live forecast #}{% else %}{% include "_forecast_teaser.html" %}{% endif %}
   <div style="display:flex;flex-wrap:wrap;gap:10px">
     <a class="btn" href="{{ link('home') }}" style="text-decoration:none">Open the Desk →</a>
     <a class="btn" href="{{ link('analysis') }}" style="text-decoration:none">News analysis</a>
