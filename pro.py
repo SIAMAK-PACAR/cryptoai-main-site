@@ -36,6 +36,23 @@ USDT_CONTRACT = "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t"
 PERIOD = 30 * 24 * 3600
 ORDER_TTL = 60 * 60
 TEHRAN = timezone(timedelta(hours=3, minutes=30))
+HEAD_START_MIN = int(os.environ.get("PRO_HEAD_START_MIN", "120"))   # Pro gets important news this much earlier
+ALERT_GAP_MIN = int(os.environ.get("PRO_ALERT_GAP_MIN", "30"))
+
+
+def pro_head_start(url: str) -> float | None:
+    """Seconds the Pro channel is still ahead on this story (None = public may post it now)."""
+    if not ready():
+        return None
+    t = (S.get("alerted_at") or {}).get(url)
+    if not t:
+        return None
+    left = t + HEAD_START_MIN * 60 - time.time()
+    return left if left > 0 else None
+
+
+def was_pro_first(url: str) -> bool:
+    return bool((S.get("alerted_at") or {}).get(url))
 
 _lock = threading.Lock()
 S = {"members": {}, "orders": {}, "stars_link": None, "alerted": [], "brief_day": None, "revenue_usdt": 0.0,
@@ -59,7 +76,7 @@ def ready() -> bool:
 # ------------------------------------------------------------------ backup / restore (pinned in admin chat)
 def _snapshot() -> dict:
     with _lock:
-        return {k: S[k] for k in ("members", "orders", "stars_link", "alerted", "brief_day", "revenue_usdt", "posted_urls", "growth", "ig_token", "ig_refreshed", "track", "track_day", "social_day", "pro_channel", "fc_posted") if k in S}
+        return {k: S[k] for k in ("members", "orders", "stars_link", "alerted", "brief_day", "revenue_usdt", "posted_urls", "growth", "ig_token", "ig_refreshed", "track", "track_day", "social_day", "pro_channel", "fc_posted", "alerted_at") if k in S}
 
 
 def backup():
@@ -104,7 +121,7 @@ def restore():
         data = json.loads(raw)
         with _lock:
             S["backup_msg"] = (chat.get("pinned_message") or {}).get("message_id")
-            for k in ("members", "orders", "stars_link", "alerted", "brief_day", "revenue_usdt", "posted_urls", "growth", "ig_token", "ig_refreshed", "track", "track_day", "social_day", "pro_channel", "fc_posted"):
+            for k in ("members", "orders", "stars_link", "alerted", "brief_day", "revenue_usdt", "posted_urls", "growth", "ig_token", "ig_refreshed", "track", "track_day", "social_day", "pro_channel", "fc_posted", "alerted_at"):
                 if k in data:
                     S[k] = data[k]
     except Exception as e:
@@ -281,10 +298,13 @@ def send_alerts():
         return
     b = news_live.get_brief()
     sent = 0
+    # Only market-moving news, and calmly: at most one alert every ALERT_GAP_MIN minutes so the channel stays useful.
+    if time.time() - float(S.get("last_alert") or 0) < ALERT_GAP_MIN * 60:
+        return
     for n in b.get("feed", []):
         if n.get("imp", 1) < 3 or n["source"]["url"] in S["alerted"] or time.time() - n["ts"] > 3 * 3600:
             continue
-        if sent >= 3:
+        if sent >= 1:
             break
         text = (f"🚨 خبر فوری بازار\n\n{n['t']}\n\n{n['b']}\n\n"
                 f"اثر احتمالی:\n{_impact_lines(n.get('im', [])) or 'اثر روشنی هنوز مشخص نیست.'}\n\n"
@@ -297,6 +317,10 @@ def send_alerts():
             except Exception:
                 tb.call("sendMessage", chat_id=cfg()["pro"], text=text[:4000], disable_web_page_preview=True)
             S["alerted"] = (S["alerted"] + [n["source"]["url"]])[-300:]
+            at = dict(S.get("alerted_at") or {})
+            at[n["source"]["url"]] = time.time()
+            S["alerted_at"] = dict(list(at.items())[-300:])
+            S["last_alert"] = time.time()
             sent += 1
         except Exception as e:
             S["last_error"] = f"alert: {str(e)[:150]}"
