@@ -137,3 +137,14 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .fc-tabs .fc-lock:hover{color:var(--signal);border-color:var(--signal)}
 .fc-pro{display:block;padding:12px 14px;border-radius:12px;background:var(--signal-soft);color:var(--signal);text-decoration:none;font-size:14px}
 .fc-pro b{color:var(--fg)}
+.fc-teaser .pb{position:relative;overflow:hidden;min-height:420px}
+.fc-blur{filter:blur(7px);opacity:.55;pointer-events:none;user-select:none}
+.fc-blur svg{width:100%;height:200px;display:block;background:var(--panel-2);border-radius:12px}
+.fc-rows{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:12px;font-family:var(--f-mono);color:var(--muted)}
+.fc-rows span{background:var(--panel-2);border-radius:10px;padding:10px}
+.fc-lockbox{position:absolute;inset:0;display:grid;place-content:center;justify-items:center;gap:10px;padding:20px;text-align:center;background:linear-gradient(180deg,rgba(12,19,34,.35),rgba(12,19,34,.92))}
+.fc-lockicon{font-size:34px}
+.fc-lockbox h2{font-size:20px;font-weight:800}
+.fc-lockbox ul{list-style:none;display:grid;gap:6px;font-size:14px;color:var(--muted);max-width:46ch}
+.fc-lockbox li::before{content:"✦ ";color:var(--signal)}
+.fc-cta{text-decoration:none;padding:10px 22px;font-size:15px}
