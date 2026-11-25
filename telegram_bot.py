@@ -88,7 +88,7 @@ def ensure_webhook():
         return
     try:
         call("setWebhook", url=c["base"] + "/telegram/webhook", secret_token=webhook_secret(),
-             allowed_updates=["message", "callback_query", "chat_member"], drop_pending_updates=False)
+             allowed_updates=["message", "callback_query", "chat_member", "my_chat_member"], drop_pending_updates=False)
         try:
             call("setMyCommands", commands=[{"command": "start", "description": "Invite link · لینک دعوت"},
                                             {"command": "invite", "description": "My invite link · لینک دعوت من"},
@@ -224,6 +224,13 @@ def draft_news_now(force: bool = False, breaking_only: bool = False) -> str:
 # ------------------------------------------------------------------ webhook
 def handle_update(upd: dict) -> None:
     c = cfg()
+    if upd.get("my_chat_member"):
+        import pro
+        try:
+            pro.on_bot_added(upd)
+        except Exception as e:
+            _state["last_error"] = f"pro channel: {e}"[:200]
+        return
     if upd.get("chat_member"):
         import pro
         import growth

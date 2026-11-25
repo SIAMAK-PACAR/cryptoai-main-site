@@ -92,6 +92,11 @@ def ingest(auth_header: str, payload: dict) -> None:
                 json.dump({"data": data, "received": _state["received"]}, f)
         except Exception:
             pass
+    try:   # paid Pro Telegram channel gets the full picture (at most every few hours)
+        import forecast_post
+        forecast_post.maybe_post(data)
+    except Exception:
+        pass
 
 
 def latest() -> dict | None:

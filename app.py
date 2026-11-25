@@ -42,8 +42,8 @@ app.config.update(SESSION_COOKIE_HTTPONLY=True, SESSION_COOKIE_SAMESITE="Lax",
 if trader_engine.trader_bp is not None:
     app.register_blueprint(trader_engine.trader_bp)      # /api/trader/scan, /api/trader/setup/<coin>
 
-PAGES = {"forecast": "/", "search": "/search", "home": "/desk", "pro": "/pro", "radio": "/radio", "trader": "/trader", "analysis": "/analysis", "sales": "/sales", "admin": "/admin"}
-PAGES_EN = {"forecast": "/en", "search": "/en/search", "home": "/en/desk", "pro": "/en/pro", "radio": "/en/radio", "trader": "/en/trader", "analysis": "/en/analysis",
+PAGES = {"forecast": "/forecast", "search": "/search", "home": "/", "pro": "/pro", "radio": "/radio", "trader": "/trader", "analysis": "/analysis", "sales": "/sales", "admin": "/admin"}
+PAGES_EN = {"forecast": "/en/forecast", "search": "/en/search", "home": "/en", "pro": "/en/pro", "radio": "/en/radio", "trader": "/en/trader", "analysis": "/en/analysis",
             "sales": "/sales", "admin": "/admin"}
 PUBLIC = ("forecast", "home", "pro", "radio", "trader", "analysis", "search")
 
@@ -127,13 +127,19 @@ def _boot_agent():
 
 # ---------- Pages ----------
 @app.route("/")
+def home():
+    return page("home", "trader.html")
+
+
+@app.route("/forecast")
 def forecast_page():
+    """Public page only explains the AI forecast and sells Pro; the forecast itself is in the Pro channel."""
     return page("forecast", "forecast.html")
 
 
 @app.route("/desk")
-def home():
-    return page("home", "trader.html")
+def desk_old():
+    return redirect("/", 301)
 
 
 @app.route("/pro")
@@ -371,13 +377,18 @@ def api_coin(sym):
 # ---------- English site ----------
 @app.route("/en")
 @app.route("/en/")
+def home_en():
+    return page("home", "trader.html", "en")
+
+
+@app.route("/en/forecast")
 def forecast_en():
     return page("forecast", "forecast.html", "en")
 
 
 @app.route("/en/desk")
-def home_en():
-    return page("home", "trader.html", "en")
+def desk_old_en():
+    return redirect("/en", 301)
 
 
 @app.route("/en/radio")
@@ -482,9 +493,12 @@ def _yt_status():
 # ---------- 24h AI forecast (computed hourly by a GitHub Action, never on this server) ----------
 @app.route("/api/forecast")
 def api_forecast():
+    # The forecast is for paying Pro members only (Telegram Pro channel); the public site never gets the numbers.
+    if not is_admin():
+        return jsonify({"ok": False, "pro_only": True})
     d = forecast_store.latest() if forecast_store else None
     r = jsonify({"ok": bool(d), "forecast": d})
-    r.headers["Cache-Control"] = "public, max-age=120"
+    r.headers["Cache-Control"] = "no-store"
     return r
 
 

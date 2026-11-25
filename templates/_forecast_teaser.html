@@ -1,0 +1,32 @@
+{% set EN = lang == 'en' %}
+<section class="panel fc-teaser">
+  <div class="pb">
+    <div class="fc-blur" aria-hidden="true">
+      <svg viewBox="0 0 600 200" preserveAspectRatio="none">
+        <path d="M10 150 C 80 60, 150 60, 220 120 S 330 170, 380 90" fill="none" stroke="#e6ebf4" stroke-width="3"/>
+        <path d="M380 90 L590 20 L590 150 Z" fill="rgba(255,201,77,.22)"/>
+        <path d="M380 90 L590 70" stroke="#33d39a" stroke-width="3" stroke-dasharray="8 6"/>
+      </svg>
+      <div class="fc-rows"><span>BTC ··· ▲ ·· %</span><span>ETH ··· ▼ ·· %</span><span>SOL ··· ▲ ·· %</span><span>XRP ··· ▲ ·· %</span></div>
+    </div>
+    <div class="fc-lockbox">
+      <div class="fc-lockicon">🔒</div>
+      <h2>{% if EN %}For CryptoAI Pro members only{% else %}فقط برای اعضای CryptoAI Pro{% endif %}</h2>
+      <ul>
+        {% if EN %}
+        <li>Likely direction of Bitcoin, Ethereum, Solana and XRP for the next 24 hours</li>
+        <li>Likely price range (80% of paths) and the share of paths that end higher</li>
+        <li>A chart of the last 48 hours and the forecast, posted in the private Pro channel every few hours</li>
+        <li>Instant alerts for market-moving news and a morning brief</li>
+        {% else %}
+        <li>جهت احتمالی بیت‌کوین، اتریوم، سولانا و ریپل برای ۲۴ ساعت آینده</li>
+        <li>محدودهٔ محتمل قیمت (۸۰٪ مسیرها) و درصد مسیرهایی که بالاتر تمام می‌شوند</li>
+        <li>نمودار ۴۸ ساعت گذشته و پیش‌بینی، هر چند ساعت در کانال خصوصی Pro</li>
+        <li>هشدار فوری خبرهای مهم بازار و خلاصهٔ صبحگاهی</li>
+        {% endif %}
+      </ul>
+      <a class="btn primary fc-cta" href="{{ link('pro') }}">{% if EN %}Join Pro →{% else %}عضویت در Pro ←{% endif %}</a>
+      <p class="fc-note">{% if EN %}Direction and likely range only — not a buy or sell signal.{% else %}فقط جهت و محدودهٔ احتمالی؛ سیگنال خرید یا فروش نیست.{% endif %}</p>
+    </div>
+  </div>
+</section>

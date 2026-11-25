@@ -44,7 +44,7 @@ S = {"members": {}, "orders": {}, "stars_link": None, "alerted": [], "brief_day"
 
 def cfg():
     return {
-        "pro": os.environ.get("TELEGRAM_PRO_CHANNEL_ID", "").strip(),
+        "pro": os.environ.get("TELEGRAM_PRO_CHANNEL_ID", "").strip() or str(S.get("pro_channel") or ""),
         "wallet": os.environ.get("PRO_USDT_TRC20", "").strip(),
         "usdt": float(os.environ.get("PRO_PRICE_USDT", "9") or 9),
         "stars": int(os.environ.get("PRO_STARS", "500") or 500),
@@ -59,7 +59,7 @@ def ready() -> bool:
 # ------------------------------------------------------------------ backup / restore (pinned in admin chat)
 def _snapshot() -> dict:
     with _lock:
-        return {k: S[k] for k in ("members", "orders", "stars_link", "alerted", "brief_day", "revenue_usdt", "posted_urls", "growth", "ig_token", "ig_refreshed", "track", "track_day", "social_day") if k in S}
+        return {k: S[k] for k in ("members", "orders", "stars_link", "alerted", "brief_day", "revenue_usdt", "posted_urls", "growth", "ig_token", "ig_refreshed", "track", "track_day", "social_day", "pro_channel", "fc_posted") if k in S}
 
 
 def backup():
@@ -104,7 +104,7 @@ def restore():
         data = json.loads(raw)
         with _lock:
             S["backup_msg"] = (chat.get("pinned_message") or {}).get("message_id")
-            for k in ("members", "orders", "stars_link", "alerted", "brief_day", "revenue_usdt", "posted_urls", "growth", "ig_token", "ig_refreshed", "track", "track_day", "social_day"):
+            for k in ("members", "orders", "stars_link", "alerted", "brief_day", "revenue_usdt", "posted_urls", "growth", "ig_token", "ig_refreshed", "track", "track_day", "social_day", "pro_channel", "fc_posted"):
                 if k in data:
                     S[k] = data[k]
     except Exception as e:
@@ -342,11 +342,34 @@ def morning_brief(force: bool = False):
     return True
 
 
-def tick():
-    """Called every minute by the agent loop."""
-    if not ready():
+def on_bot_added(upd: dict):
+    """The admin added the bot as an admin of a channel whose name contains "Pro": use it as the Pro channel.
+    Saves having to look up the -100… channel id; TELEGRAM_PRO_CHANNEL_ID in Render still wins if set."""
+    m = upd.get("my_chat_member") or {}
+    chat = m.get("chat") or {}
+    new = m.get("new_chat_member") or {}
+    who = str((m.get("from") or {}).get("id"))
+    if chat.get("type") != "channel" or new.get("status") != "administrator":
+        return
+    if "pro" not in (chat.get("title") or "").lower() or who != str(tb.cfg()["admin"]):
+        return
+    if os.environ.get("TELEGRAM_PRO_CHANNEL_ID", "").strip():
         return
     restore()
+    S["pro_channel"] = str(chat["id"])
+    perms = new.get("can_invite_users") and new.get("can_restrict_members")
+    tb.call("sendMessage", chat_id=tb.cfg()["admin"],
+            text=f"✅ کانال Pro وصل شد: {chat.get('title')}\n"
+                 + ("همه‌چیز آماده است؛ پیش‌بینی ۲۴ ساعته و خبرهای فوری از این به بعد آنجا می‌رود."
+                    if perms else "⚠️ به ربات اجازهٔ «Invite users» و «Ban users» هم بدهید تا عضوگیری خودکار کار کند."))
+    backup()
+
+
+def tick():
+    """Called every minute by the agent loop."""
+    restore()          # also brings back a Pro channel connected through on_bot_added
+    if not ready():
+        return
     try:
         send_alerts()
         morning_brief()
