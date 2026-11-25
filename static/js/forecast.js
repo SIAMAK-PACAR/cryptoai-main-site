@@ -41,7 +41,7 @@
   function show(sym) {
     cur = sym;
     var c = data.coins[sym];
-    Array.prototype.forEach.call($("fc-tabs").children, function (b) { b.setAttribute("aria-selected", b.dataset.s === sym ? "true" : "false"); });
+    Array.prototype.forEach.call($("fc-tabs").querySelectorAll("button"), function (b) { b.setAttribute("aria-selected", b.dataset.s === sym ? "true" : "false"); });
     var b = $("fc-bias");
     b.className = "fc-bias " + c.bias;
     b.innerHTML = T[c.bias] + "<small>" + T.sub + "</small>";
@@ -61,8 +61,13 @@
       data = d.forecast;
       var syms = ["BTC", "ETH", "SOL", "XRP"].filter(function (s) { return data.coins[s]; });
       if (!syms.length) return;
-      $("fc-tabs").innerHTML = syms.map(function (s) { return '<button type="button" role="tab" data-s="' + s + '">' + s + "</button>"; }).join("");
-      Array.prototype.forEach.call($("fc-tabs").children, function (btn) { btn.onclick = function () { show(btn.dataset.s); }; });
+      var locked = data.locked || [];
+      var proUrl = EN ? "/en/pro" : "/pro";
+      $("fc-tabs").innerHTML = syms.map(function (s) { return '<button type="button" role="tab" data-s="' + s + '">' + s + "</button>"; }).join("") +
+        locked.map(function (s) { return '<a class="fc-lock" href="' + proUrl + '" title="Pro">🔒 ' + s + "</a>"; }).join("");
+      Array.prototype.forEach.call($("fc-tabs").querySelectorAll("button"), function (btn) { btn.onclick = function () { show(btn.dataset.s); }; });
+      var pro = $("fc-pro");
+      if (pro) pro.hidden = !locked.length;
       box.hidden = false;
       var wait = document.getElementById("fc-wait");
       if (wait) wait.hidden = true;

@@ -483,6 +483,9 @@ def _yt_status():
 @app.route("/api/forecast")
 def api_forecast():
     d = forecast_store.latest() if forecast_store else None
+    if d:   # public site: Bitcoin only; the full forecast (ETH, SOL, XRP) is for the Pro channel
+        d = dict(d, coins={k: v for k, v in d["coins"].items() if k == "BTC"},
+                 locked=[k for k in ("ETH", "SOL", "XRP") if k in d["coins"]])
     r = jsonify({"ok": bool(d), "forecast": d})
     r.headers["Cache-Control"] = "public, max-age=120"
     return r
