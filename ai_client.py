@@ -2,7 +2,7 @@
 ai_client.py — one place where the site talks to an LLM.
 
 Provider is picked from environment variables (set them on the server, never in code):
-  GROQ_API_KEY        → Groq (default model: GROQ_MODEL or "llama-3.3-70b-versatile")
+  GROQ_API_KEY        → Groq (default model: GROQ_MODEL or "openai/gpt-oss-120b"; Groq retired the Llama 3.x models in Aug 2026)
   ANTHROPIC_API_KEY   → Claude (default model: ANTHROPIC_MODEL or "claude-sonnet-5-5")
 If crypto-business/.env exists next to this folder, its values are loaded too.
 """
@@ -53,8 +53,8 @@ def ask(prompt: str, json_mode: bool = False, max_tokens: int = 1500, timeout: i
         system += " Reply with valid JSON only, no prose and no code fences."
 
     if p == "Groq":
-        models = [os.environ.get("GROQ_MODEL", "llama-3.3-70b-versatile"),
-                  os.environ.get("GROQ_FALLBACK_MODEL", "llama-3.1-8b-instant")]
+        models = [os.environ.get("GROQ_MODEL", "openai/gpt-oss-120b"),
+                  os.environ.get("GROQ_FALLBACK_MODEL", "openai/gpt-oss-20b")]
         last = None
         for model in models:   # if the main model's quota is full, the lighter model answers
             body = {
@@ -63,6 +63,9 @@ def ask(prompt: str, json_mode: bool = False, max_tokens: int = 1500, timeout: i
                 "temperature": 0.3,
                 "max_tokens": max_tokens,
             }
+            if "gpt-oss" in model:      # reasoning models: keep thinking short so the answer fits
+                body["reasoning_effort"] = "low"
+                body["max_tokens"] = max_tokens + 1024
             if json_mode:
                 body["response_format"] = {"type": "json_object"}
             r = requests.post("https://api.groq.com/openai/v1/chat/completions",
