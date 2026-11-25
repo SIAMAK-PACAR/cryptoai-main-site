@@ -76,11 +76,28 @@ def _title(news: dict) -> str:
     return (t[:92].rstrip() + "…") if len(t) > 93 else t
 
 
+def _links_block() -> str:
+    """Website, both Telegram channels and Pro, first in the description (YouTube shows the top lines)."""
+    import social
+    site, fa, en = social.promo_links()
+    lines = []
+    if site:
+        lines.append(f"🌐 سایت | Website: {site}")
+    if fa:
+        lines.append(f"🇮🇷 کانال تلگرام فارسی: {fa}")
+    if en:
+        lines.append(f"🌍 English Telegram: {en}")
+    if site:
+        lines.append(f"🔒 پیش‌بینی ۲۴ ساعتهٔ هوش مصنوعی و خبر فوری | 24h AI forecast & instant alerts (Pro): {site}/pro")
+    return "\n".join(lines)
+
+
 def _description(news: dict, assets: list) -> str:
     import social
     fa = social.caption(news, assets, "fa")
     en = social.caption(news, assets, "en")
-    d = f"{fa}\n\n— — —\n\n{en}\n\n#shorts #crypto #bitcoin #کریپتو #بیت_کوین"
+    links = _links_block()
+    d = (f"{links}\n\n" if links else "") + f"{fa}\n\n— — —\n\n{en}\n\n#shorts #crypto #bitcoin #کریپتو #بیت_کوین"
     return d.replace("<", "").replace(">", "")[:4900]
 
 
