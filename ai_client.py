@@ -54,8 +54,11 @@ def ask(prompt: str, json_mode: bool = False, max_tokens: int = 1500, timeout: i
         system += " Reply with valid JSON only, no prose and no code fences."
 
     if p == "Groq":
+        # Each Groq model has its own free daily token quota (~200K/day). When one is used up,
+        # the next one answers, so the news brief, Instagram/TikTok kit and YouTube Short keep working.
+        extra = [m.strip() for m in os.environ.get("GROQ_EXTRA_MODELS", "qwen/qwen3.8-27b,groq/compound").split(",") if m.strip()]
         models = [os.environ.get("GROQ_MODEL", "openai/gpt-oss-120b"),
-                  os.environ.get("GROQ_FALLBACK_MODEL", "openai/gpt-oss-20b")]
+                  os.environ.get("GROQ_FALLBACK_MODEL", "openai/gpt-oss-20b")] + extra
         last = None
         for model in models:   # if the main model's quota is full, the lighter model answers
             body = {
@@ -67,7 +70,9 @@ def ask(prompt: str, json_mode: bool = False, max_tokens: int = 1500, timeout: i
             if "gpt-oss" in model:      # reasoning models: keep thinking short so the answer fits
                 body["reasoning_effort"] = "low"
                 body["max_tokens"] = max_tokens + 512
-            if json_mode:
+            elif "qwen" in model:       # hide <think> text so callers only get the answer
+                body["reasoning_format"] = "hidden"
+            if json_mode and not model.startswith("groq/"):
                 body["response_format"] = {"type": "json_object"}
             for attempt in range(3):   # free tier: a few requests per minute; wait as Groq asks, then retry
                 r = requests.post("https://api.groq.com/openai/v1/chat/completions",
