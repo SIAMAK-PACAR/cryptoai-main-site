@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}CryptoAI · Buy & swap crypto{% endblock %}
+{% block content %}
+<div class="wrap narrow" style="margin-inline:auto">
+  <div class="page-head" style="margin-bottom:14px">
+    <div>
+      <h1>Buy &amp; <span>swap crypto</span></h1>
+      <p>Buy crypto or swap coins without leaving the site. Trades are handled by Changelly and go straight to your own wallet.</p>
+    </div>
+  </div>
+  {% if buy.widget %}
+  <div class="card" style="padding:0;overflow:hidden;border-radius:16px;max-width:600px;margin-inline:auto">
+    <iframe src="{{ buy.widget }}" title="Changelly" width="100%" height="520" frameborder="0" loading="lazy"
+            style="display:block;border:0;min-height:520px" allow="clipboard-write"></iframe>
+  </div>
+  {% endif %}
+  {% if buy.binance %}
+  <div class="card" style="margin-top:16px;padding:18px;border-radius:16px">
+    <h3 style="margin:0 0 6px">Trader? Binance</h3>
+    <p style="margin:0 0 12px;color:var(--muted,#8a94a7)">The world’s largest exchange — sign up with our link.</p>
+    <a class="btn" href="{{ buy.binance }}" target="_blank" rel="noopener sponsored" style="text-decoration:none">Sign up to Binance →</a>
+  </div>
+  {% endif %}
+  {% if not buy.on %}
+  <div class="card" style="padding:18px;border-radius:16px">
+    <strong>Coming soon</strong>
+    <p style="margin:6px 0 0;color:var(--muted,#8a94a7)">Activates once a referral code is set in Render. Only the admin sees this page.</p>
+  </div>
+  {% endif %}
+  <p style="margin-top:16px;font-size:13px;color:var(--muted,#8a94a7)">CryptoAI is not an exchange and holds no funds; this is a third-party service and we may earn a commission. Not financial advice.</p>
+</div>
+{% endblock %}

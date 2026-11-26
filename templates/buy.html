@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}CryptoAI · خرید و تبدیل کریپتو{% endblock %}
+{% block content %}
+<div class="wrap narrow" style="margin-inline:auto">
+  <div class="page-head" style="margin-bottom:14px">
+    <div>
+      <h1>خرید و <span>تبدیل کریپتو</span></h1>
+      <p>بدون خروج از سایت، کریپتو بخر یا کوین‌هایت را به هم تبدیل کن. معامله توسط سرویس معتبر Changelly انجام می‌شود و پول مستقیم به کیف پول خودت می‌رود.</p>
+    </div>
+  </div>
+  {% if buy.widget %}
+  <div class="card" style="padding:0;overflow:hidden;border-radius:16px;max-width:600px;margin-inline:auto">
+    <iframe src="{{ buy.widget }}" title="Changelly" width="100%" height="520" frameborder="0" loading="lazy"
+            style="display:block;border:0;min-height:520px" allow="clipboard-write"></iframe>
+  </div>
+  {% endif %}
+  {% if buy.binance %}
+  <div class="card" style="margin-top:16px;padding:18px;border-radius:16px">
+    <h3 style="margin:0 0 6px">معامله‌گر هستی؟ بایننس</h3>
+    <p style="margin:0 0 12px;color:var(--muted,#8a94a7)">بزرگ‌ترین صرافی دنیا؛ با لینک ما ثبت‌نام کن.</p>
+    <a class="btn" href="{{ buy.binance }}" target="_blank" rel="noopener sponsored" style="text-decoration:none">ثبت‌نام در بایننس ←</a>
+  </div>
+  {% endif %}
+  {% if not buy.on %}
+  <div class="card" style="padding:18px;border-radius:16px">
+    <strong>به‌زودی</strong>
+    <p style="margin:6px 0 0;color:var(--muted,#8a94a7)">این بخش بعد از وارد کردن کد همکاری (CHANGELLY_REF_ID یا BINANCE_REF_URL) در Render فعال می‌شود. فقط مدیر این صفحه را می‌بیند.</p>
+  </div>
+  {% endif %}
+  <p style="margin-top:16px;font-size:13px;color:var(--muted,#8a94a7)">CryptoAI صرافی نیست و پولی نگه نمی‌دارد؛ این بخش سرویس شخص ثالث است و ممکن است از معاملات کمیسیون دریافت کنیم. این آموزش یا توصیهٔ مالی نیست.</p>
+</div>
+{% endblock %}

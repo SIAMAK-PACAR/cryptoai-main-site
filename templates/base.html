@@ -36,6 +36,7 @@
       <a href="{{ link('trader') }}" {% if page=='trader' %}aria-current="page"{% endif %}>{{ 'Market Intel' if EN else 'هوش بازار' }}</a>
       <a href="{{ link('analysis') }}" {% if page=='analysis' %}aria-current="page"{% endif %}>{{ 'News Analysis' if EN else 'تحلیل خبر' }}</a>
       <a href="{{ link('search') }}" {% if page=='search' %}aria-current="page"{% endif %}>🔍 {{ 'Search' if EN else 'جستجو' }}</a>
+      {% if buy and (buy.on or is_admin) %}<a href="{{ link('buy') }}" {% if page=='buy' %}aria-current="page"{% endif %}>💱 {{ 'Buy & Swap' if EN else 'خرید و تبدیل' }}</a>{% endif %}
       <a class="nav-pro" href="{{ link('pro') }}" {% if page=='pro' %}aria-current="page"{% endif %}>Pro ✦</a>
       {% if is_admin %}<a href="{{ link('sales') }}" {% if page=='sales' %}aria-current="page"{% endif %}>پیدا کردن مشتری</a>
       <a href="{{ link('admin') }}" {% if page=='admin' %}aria-current="page"{% endif %}>پنل مدیر</a>{% endif %}
