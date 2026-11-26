@@ -107,7 +107,7 @@ def buy_cfg() -> dict:
     widget = os.environ.get("CHANGELLY_WIDGET_URL", "").strip()
     if widget and not widget.startswith("https://widget.changelly.com"):
         widget = ""                      # only embed Changelly's own widget host
-    binance = os.environ.get("BINANCE_REF_URL", "").strip()
+    binance = os.environ.get("BINANCE_REF_URL", "https://account.binance.com/register?registerChannel=user_center&ref=144884272").strip()
     if binance and not binance.startswith("https://"):
         binance = ""
     return {"link": link, "widget": widget, "binance": binance, "on": bool(link or widget or binance)}
