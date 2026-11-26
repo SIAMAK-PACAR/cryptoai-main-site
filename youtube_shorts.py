@@ -108,6 +108,20 @@ def publish(fa_mp4: bytes, en_mp4: bytes, news: dict, assets: list) -> str:
     import requests
     try:
         url = _host(join(fa_mp4, en_mp4))
+        # Right after a deploy the public URL may still reach the *old* instance, which doesn't
+        # hold this video in memory. Wait until the URL really serves it before calling Make.
+        ok = False
+        for _ in range(24):                          # up to ~4 minutes
+            try:
+                h = requests.head(url, timeout=20, allow_redirects=True)
+                if h.status_code == 200:
+                    ok = True
+                    break
+            except Exception:
+                pass
+            time.sleep(10)
+        if not ok:
+            raise RuntimeError("video URL not reachable yet (deploy in progress?)")
         payload = {"video_url": url, "title": _title(news), "description": _description(news, assets),
                    "tags": "crypto,bitcoin,ethereum,crypto news,کریپتو,بیت کوین,اخبار ارز دیجیتال,CryptoAI"}
         r = requests.post(webhook(), json=payload, timeout=60)
