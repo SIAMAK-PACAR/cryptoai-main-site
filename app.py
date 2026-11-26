@@ -42,10 +42,10 @@ app.config.update(SESSION_COOKIE_HTTPONLY=True, SESSION_COOKIE_SAMESITE="Lax",
 if trader_engine.trader_bp is not None:
     app.register_blueprint(trader_engine.trader_bp)      # /api/trader/scan, /api/trader/setup/<coin>
 
-PAGES = {"forecast": "/forecast", "search": "/search", "home": "/", "pro": "/pro", "radio": "/radio", "trader": "/trader", "analysis": "/analysis", "sales": "/sales", "admin": "/admin"}
-PAGES_EN = {"forecast": "/en/forecast", "search": "/en/search", "home": "/en", "pro": "/en/pro", "radio": "/en/radio", "trader": "/en/trader", "analysis": "/en/analysis",
+PAGES = {"buy": "/buy", "forecast": "/forecast", "search": "/search", "home": "/", "pro": "/pro", "radio": "/radio", "trader": "/trader", "analysis": "/analysis", "sales": "/sales", "admin": "/admin"}
+PAGES_EN = {"buy": "/en/buy", "forecast": "/en/forecast", "search": "/en/search", "home": "/en", "pro": "/en/pro", "radio": "/en/radio", "trader": "/en/trader", "analysis": "/en/analysis",
             "sales": "/sales", "admin": "/admin"}
-PUBLIC = ("forecast", "home", "pro", "radio", "trader", "analysis", "search")
+PUBLIC = ("buy", "forecast", "home", "pro", "radio", "trader", "analysis", "search")
 
 
 # ---------- admin login (password lives only in Render: ADMIN_PASSWORD) ----------
@@ -100,13 +100,28 @@ def socials() -> list:
     return out
 
 
+def buy_cfg() -> dict:
+    """Affiliate 'Buy & swap' section. Shown only once a referral is set in Render env (CHANGELLY_REF_ID / BINANCE_REF_URL)."""
+    ref = os.environ.get("CHANGELLY_REF_ID", "").strip()
+    widget = os.environ.get("CHANGELLY_WIDGET_URL", "").strip()
+    if ref and not widget:
+        widget = ("https://widget.changelly.com?from=*&to=*&amount=100&address=&fromDefault=usdt&toDefault=btc"
+                  f"&merchant_id={ref}&payment_id=&v=3")
+    if widget and not widget.startswith("https://widget.changelly.com"):
+        widget = ""                      # only embed Changelly's own widget host
+    binance = os.environ.get("BINANCE_REF_URL", "").strip()
+    if binance and not binance.startswith("https://"):
+        binance = ""
+    return {"widget": widget, "binance": binance, "on": bool(widget or binance)}
+
+
 def page(name: str, template: str, lang: str = "fa", **extra):
     """Render a page in server mode (links to Flask routes, AI through /api/ai). lang='en' uses templates/en/."""
     pages = PAGES_EN if lang == "en" else PAGES
     alt = (PAGES if lang == "en" else PAGES_EN)[name] if name in PUBLIC else None
     return render_template(
         ("en/" + template) if lang == "en" else template, page=name, mode="server", api_base="", lang=lang,
-        is_admin=is_admin(), channel=channel_url(lang), alt_url=alt, socials=socials(), music_embed=music_embed(),
+        is_admin=is_admin(), channel=channel_url(lang), alt_url=alt, socials=socials(), music_embed=music_embed(), buy=buy_cfg(),
         asset=lambda p: url_for("static", filename=p) if p else "/static/",
         link=lambda n: pages[n], **extra,
     )
@@ -135,6 +150,20 @@ def home():
 def forecast_page():
     """Public page only explains the AI forecast and sells Pro; the forecast itself is in the Pro channel."""
     return page("forecast", "forecast.html")
+
+
+@app.route("/buy")
+def buy_page():
+    if not (buy_cfg()["on"] or is_admin()):
+        return redirect("/")
+    return page("buy", "buy.html")
+
+
+@app.route("/en/buy")
+def buy_en():
+    if not (buy_cfg()["on"] or is_admin()):
+        return redirect("/en")
+    return page("buy", "buy.html", "en")
 
 
 @app.route("/desk")
