@@ -101,18 +101,16 @@ def socials() -> list:
 
 
 def buy_cfg() -> dict:
-    """Affiliate 'Buy & swap' section. Shown only once a referral is set in Render env (CHANGELLY_REF_ID / BINANCE_REF_URL)."""
-    ref = os.environ.get("CHANGELLY_REF_ID", "").strip()
+    """Affiliate 'Buy & swap' section (Changelly referral + optional widget, Binance referral)."""
+    ref = os.environ.get("CHANGELLY_REF_ID", "jNlZRiutUB75nrUZ").strip()   # public referral id, not a secret
+    link = f"https://changelly.com/?from=usdt&to=btc&amount=100&ref_id={ref}" if ref else ""
     widget = os.environ.get("CHANGELLY_WIDGET_URL", "").strip()
-    if ref and not widget:
-        widget = ("https://widget.changelly.com?from=*&to=*&amount=100&address=&fromDefault=usdt&toDefault=btc"
-                  f"&merchant_id={ref}&payment_id=&v=3")
     if widget and not widget.startswith("https://widget.changelly.com"):
         widget = ""                      # only embed Changelly's own widget host
     binance = os.environ.get("BINANCE_REF_URL", "").strip()
     if binance and not binance.startswith("https://"):
         binance = ""
-    return {"widget": widget, "binance": binance, "on": bool(widget or binance)}
+    return {"link": link, "widget": widget, "binance": binance, "on": bool(link or widget or binance)}
 
 
 def page(name: str, template: str, lang: str = "fa", **extra):

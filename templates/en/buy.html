@@ -5,13 +5,22 @@
   <div class="page-head" style="margin-bottom:14px">
     <div>
       <h1>Buy &amp; <span>swap crypto</span></h1>
-      <p>Buy crypto or swap coins without leaving the site. Trades are handled by Changelly and go straight to your own wallet.</p>
+      <p>Buy crypto or swap coins. Trades are handled by Changelly and go straight to your own wallet.</p>
     </div>
   </div>
   {% if buy.widget %}
   <div class="card" style="padding:0;overflow:hidden;border-radius:16px;max-width:600px;margin-inline:auto">
     <iframe src="{{ buy.widget }}" title="Changelly" width="100%" height="520" frameborder="0" loading="lazy"
             style="display:block;border:0;min-height:520px" allow="clipboard-write"></iframe>
+  </div>
+  {% endif %}
+  {% if buy.link and not buy.widget %}
+  <div class="card" style="padding:22px;border-radius:16px;max-width:600px;margin-inline:auto;border:1px solid rgba(51,211,154,.35);background:linear-gradient(160deg,rgba(51,211,154,.10),transparent 60%)">
+    <div style="font-size:30px;line-height:1">💱</div>
+    <h3 style="margin:10px 0 6px">Swap & buy crypto</h3>
+    <p style="margin:0 0 10px;color:var(--muted,#8a94a7)">1,000+ coins — Bitcoin, Ethereum, USDT, Solana and more. Fast, straight to your own wallet.</p>
+    <p dir="ltr" style="margin:0 0 16px;font-size:13px;letter-spacing:.5px;color:var(--up)">BTC · ETH · USDT · SOL · XRP · BNB · TON</p>
+    <a class="btn" href="{{ buy.link }}" target="_blank" rel="noopener sponsored" style="text-decoration:none;display:inline-block;padding:10px 20px;background:var(--up);color:#06140f;border-color:transparent;font-weight:600">Start swapping on Changelly →</a>
   </div>
   {% endif %}
   {% if buy.binance %}

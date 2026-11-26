@@ -34,7 +34,7 @@ services:
         sync: false
       - key: PRO_USDT_TRC20
         sync: false
-      - key: CHANGELLY_REF_ID
+      - key: CHANGELLY_WIDGET_URL
         sync: false
       - key: BINANCE_REF_URL
         sync: false
