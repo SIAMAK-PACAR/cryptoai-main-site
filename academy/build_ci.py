@@ -14,26 +14,34 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent
 
 
+def _verify(url: str, size: int) -> bool:
+    """The host must serve the exact file bytes (not an HTML download page)."""
+    r = subprocess.run(["curl", "-sSL", "-A", "Mozilla/5.0", "-o", "/tmp/_dl_check", "-w", "%{http_code} %{content_type}", url],
+                       capture_output=True, text=True)
+    ok = r.returncode == 0 and r.stdout.startswith("200") and Path("/tmp/_dl_check").exists() \
+        and Path("/tmp/_dl_check").stat().st_size == size
+    print(f"  verify {url}: {r.stdout.strip()} ok={ok}", flush=True)
+    return ok
+
+
 def upload(path: Path) -> str:
-    """Temporary public hosting (72h) so the uploader can download the file. Two hosts for safety."""
-    tries = [
-        ["curl", "-sS", "--fail", "-F", "reqtype=fileupload", "-F", "time=72h", "-F", f"fileToUpload=@{path}",
-         "https://litterbox.catbox.moe/resources/internals/api.php"],
-        ["curl", "-sS", "--fail", "-F", f"file=@{path}", "https://tmpfiles.org/api/v1/upload"],
+    """Public hosting so the YouTube uploader can download the file. Several hosts, each verified."""
+    size = path.stat().st_size
+    hosts = [
+        ("catbox", ["curl", "-sS", "-F", "reqtype=fileupload", "-F", f"fileToUpload=@{path}", "https://catbox.moe/user/api.php"]),
+        ("litterbox", ["curl", "-sS", "-F", "reqtype=fileupload", "-F", "time=72h", "-F", f"fileToUpload=@{path}",
+                       "https://litterbox.catbox.moe/resources/internals/api.php"]),
+        ("0x0", ["curl", "-sS", "-A", "cryptoai-academy/1.0", "-F", f"file=@{path}", "-F", "expires=72", "https://0x0.st"]),
+        ("uguu", ["curl", "-sS", "-F", f"files[]=@{path}", "https://uguu.se/upload?output=text"]),
     ]
-    for cmd in tries:
-        for attempt in range(3):
+    for name, cmd in hosts:
+        for attempt in range(2):
             r = subprocess.run(cmd, capture_output=True, text=True)
-            out = r.stdout.strip()
-            if r.returncode == 0 and out:
-                if out.startswith("https://"):
-                    return out
-                try:
-                    u = json.loads(out)["data"]["url"]
-                    return u.replace("tmpfiles.org/", "tmpfiles.org/dl/").replace("http://", "https://")
-                except Exception:
-                    pass
-            time.sleep(5)
+            out = r.stdout.strip().splitlines()[0] if r.stdout.strip() else ""
+            print(f"  {name}: rc={r.returncode} out={out[:120]!r} err={r.stderr.strip()[:200]!r}", flush=True)
+            if out.startswith("https://") and _verify(out, size):
+                return out
+            time.sleep(4)
     raise RuntimeError(f"upload failed for {path.name}")
 
 
