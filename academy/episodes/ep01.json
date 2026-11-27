@@ -283,5 +283,14 @@
     }
    ]
   }
- ]
+ ],
+ "thumb": {
+  "lines": [
+   "WHAT IS",
+   "CRYPTO?"
+  ],
+  "fa": "کریپتو چیست؟ از صفر",
+  "icon": "coin",
+  "color": "acc"
+ }
 }

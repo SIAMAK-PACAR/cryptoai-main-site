@@ -51,6 +51,15 @@ def main():
     todo = [e for e in eps if not (ROOT / "status" / f"{e}.json").exists()]
     if want:
         todo = [want] if want in eps else []
+    # thumbnails for lessons already built (and for any new build below)
+    for st in sorted((ROOT / "status").glob("ep*.json")):
+        d = json.loads(st.read_text())
+        if d.get("thumb_url") or not (ROOT / "episodes" / f"{st.stem}.json").exists():
+            continue
+        subprocess.run([sys.executable, str(ROOT / "render.py"), st.stem, "--thumb"], check=True)
+        d["thumb_url"] = upload(ROOT / "out" / f"{st.stem}-thumb.jpg")
+        st.write_text(json.dumps(d, ensure_ascii=False, indent=1))
+        print(f"{st.stem} thumb: {d['thumb_url']}", flush=True)
     if not todo:
         print("nothing to build"); return
     ep = todo[0]
@@ -58,6 +67,7 @@ def main():
     meta = json.loads((ROOT / "out" / f"{ep}-meta.json").read_text())
     meta["long_url"] = upload(ROOT / "out" / f"{ep}-long.mp4")
     meta["short_url"] = upload(ROOT / "out" / f"{ep}-short.mp4")
+    meta["thumb_url"] = upload(ROOT / "out" / f"{ep}-thumb.jpg")
     meta["built_at"] = datetime.now(timezone.utc).isoformat(timespec="seconds")
     meta["published"] = False
     (ROOT / "status").mkdir(exist_ok=True)

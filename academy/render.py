@@ -693,12 +693,55 @@ def make_short(ep, timeline, long_mp4: Path, out_mp4: Path):
                         "-c:a", "aac", "-b:a", "64k", "-shortest", "-movflags", "+faststart", str(out_mp4)], check=True)
 
 
+def make_thumb(ep, out_jpg: Path):
+    """1280x720 YouTube thumbnail: big English hook, Persian line, lesson pill, one bold icon."""
+    T = ep.get("thumb") or {}
+    im = Image.new("RGB", (1280, 720), BG); d = ImageDraw.Draw(im)
+    col = COL.get(T.get("color", "up"), UP)
+    glow_ = Image.new("RGBA", (1280, 720), (0, 0, 0, 0)); gd = ImageDraw.Draw(glow_)
+    gd.ellipse((760, 60, 1260, 560), fill=col + (70,)); glow_ = glow_.filter(ImageFilter.GaussianBlur(90))
+    im.paste(glow_, (0, 0), glow_); d = ImageDraw.Draw(im)
+    for k in range(0, 1280, 64):
+        d.line((k, 0, k, 720), fill=(14, 18, 28)); 
+    for k in range(0, 720, 64):
+        d.line((0, k, 1280, k), fill=(14, 18, 28))
+    cx, cy, r = 1010, 330, 190
+    kind = T.get("icon", "shield")
+    if kind == "shield":
+        d.polygon([(cx, cy - r), (cx + r * 0.85, cy - r * 0.62), (cx + r * 0.78, cy + r * 0.25), (cx, cy + r), (cx - r * 0.78, cy + r * 0.25), (cx - r * 0.85, cy - r * 0.62)], fill=col)
+        d.line([(cx - r * 0.38, cy + r * 0.02), (cx - r * 0.08, cy + r * 0.32), (cx + r * 0.45, cy - r * 0.3)], fill=BG, width=34, joint="curve")
+    elif kind == "chain":
+        for q in range(3):
+            x = cx - 150 + q * 150
+            d.rounded_rectangle((x - 62, cy - 62, x + 62, cy + 62), radius=18, outline=col, width=14)
+    else:  # coin
+        d.ellipse((cx - r, cy - r, cx + r, cy + r), fill=(247, 147, 26))
+        f = ImageFont.truetype(str(FONTS / "InterDisplay-Black.otf"), 230); d.text((cx, cy + 10), "B", font=f, fill=(255, 255, 255), anchor="mm")
+    fp = ImageFont.truetype(str(FONTS / "Inter-Bold.otf"), 30)
+    lab = f"LESSON {ep['number']:02d}"; tw = d.textlength(lab, font=fp)
+    d.rounded_rectangle((60, 58, 60 + tw + 44, 112), radius=27, fill=ACC); d.text((82, 66), lab, font=fp, fill=BG)
+    fb = ImageFont.truetype(str(FONTS / "InterDisplay-Black.otf"), 112)
+    y = 150
+    for k, ln in enumerate(T.get("lines", [ep["title"].upper()])):
+        d.text((56, y), ln, font=fb, fill=col if k == len(T.get("lines", [])) - 1 else TXT); y += 118
+    ffa = ImageFont.truetype(str(FONTS / "Vazirmatn-Bold.ttf"), 62, layout_engine=ImageFont.Layout.RAQM if RAQM else ImageFont.Layout.BASIC)
+    if T.get("fa"):
+        d.rounded_rectangle((56, y + 24, 56 + d.textlength(T["fa"], font=ffa, **FAKW) + 48, y + 120), radius=18, fill=(0, 0, 0))
+        d.text((80, y + 30), T["fa"], font=ffa, fill=TXT, **FAKW)
+    fs = ImageFont.truetype(str(FONTS / "Inter-SemiBold.otf"), 30)
+    d.ellipse((60, 652, 80, 672), fill=BLUE); d.text((92, 644), "CryptoAI Academy", font=fs, fill=TXT)
+    im.save(out_jpg, quality=90)
+
+
 def fmt_ts(x):
     x = int(x); return f"{x // 60}:{x % 60:02d}"
 
 
 def main():
     ep_id = sys.argv[1]; silent = "--silent" in sys.argv
+    if "--thumb" in sys.argv:
+        OUT.mkdir(exist_ok=True)
+        make_thumb(json.loads((ROOT / "episodes" / f"{ep_id}.json").read_text()), OUT / f"{ep_id}-thumb.jpg"); return
     if not RAQM and not silent:
         sys.exit("Persian text shaping (raqm) is missing: refusing to render broken subtitles.")
     ep = json.loads((ROOT / "episodes" / f"{ep_id}.json").read_text())
@@ -709,6 +752,7 @@ def main():
         print(f"rendering {ep_id}: {total:.1f}s", flush=True)
         encode(ep, timeline, total, audio, long_mp4)
         make_short(ep, timeline, long_mp4, short_mp4)
+        make_thumb(ep, OUT / f"{ep_id}-thumb.jpg")
     chapters = "\n".join(f"{fmt_ts(sc['t0'] if i else 0)} {sc['chapter']}" for i, sc in enumerate(timeline))
     meta = {"id": ep_id, "duration": round(total, 1), "chapters": chapters,
             "long_bytes": long_mp4.stat().st_size, "short_bytes": short_mp4.stat().st_size}

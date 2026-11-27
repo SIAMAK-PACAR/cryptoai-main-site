@@ -1,77 +1,262 @@
 {
-  "id": "ep02",
-  "number": 2,
-  "level": "BEGINNER",
-  "title": "Your first safe buy",
-  "subtitle": "Exchanges, wallets, fees and scams: the safe way in",
-  "yt_title": "How to Buy Crypto Safely: Exchanges vs Wallets | Lesson 2 | اولین خرید امن کریپتو",
-  "yt_short_title": "Not your keys, not your coins: exchange vs wallet | کیف پول یا صرافی؟ #shorts",
-  "summary_en": "Lesson 2 of the CryptoAI Academy course, from zero to pro trading: what a crypto exchange is (CEX, DEX and swap services), the difference between keeping coins on an exchange and in your own wallet, a 4-step checklist for your first safe purchase, trading fees, and the scams to avoid.",
-  "summary_fa": "درس دوم دورهٔ آکادمی CryptoAI: صرافی کریپتو چیست (متمرکز، غیرمتمرکز و سرویس‌های تبدیل)، فرق نگه داشتن کوین در صرافی با کیف پول شخصی، چک‌لیست ۴ مرحله‌ای اولین خرید امن، کارمزدها و کلاهبرداری‌هایی که باید از آن‌ها دوری کنی.",
-  "short_scenes": [2],
-  "short_hook": "Exchange or your own wallet?",
-  "short_hook_fa": "صرافی یا کیف پول شخصی؟",
-  "scenes": [
-    {"type": "title", "chapter": "Intro", "lines": [
-      {"en": "Welcome back to CryptoAI Academy.", "fa": "دوباره به آکادمی CryptoAI خوش آمدی."},
-      {"en": "Lesson two. How to buy your first crypto, safely.", "fa": "درس دوم: چطور اولین کریپتویت را امن بخری."}
-    ]},
-    {"type": "points", "chapter": "Exchanges", "heading": "Where you buy crypto",
-     "items": [["Centralized exchange (CEX)", "Binance, Coinbase, Kraken: works like a banking app", "blue"],
-               ["Decentralized exchange (DEX)", "Swap directly from your own wallet, no account", "purp"],
-               ["Swap services", "Quick one-off conversions between coins", "acc"]],
-     "lines": [
-      {"en": "You buy crypto on an exchange.", "fa": "کریپتو را از صرافی می‌خری."},
-      {"en": "A centralized exchange, like Binance, Coinbase or Kraken, works much like a banking app.", "fa": "صرافی متمرکز، مثل بایننس، کوین‌بیس یا کراکن، شبیه یک اپ بانکی کار می‌کند."},
-      {"en": "A decentralized exchange lets you swap straight from your own wallet, with no account.", "fa": "صرافی غیرمتمرکز بدون حساب کاربری، مستقیم از کیف پول خودت تبدیل انجام می‌دهد."},
-      {"en": "And swap services do quick, one off conversions between coins.", "fa": "و سرویس‌های تبدیل، یک کوین را سریع به کوین دیگر تبدیل می‌کنند."}
-    ]},
-    {"type": "compare", "chapter": "Keys", "heading": "Exchange wallet vs your own wallet",
-     "columns": [
-       {"title": "On the exchange", "color": "blue", "bullets": ["Easy to buy, sell and trade", "!The exchange holds your keys", "!Hacks, freezes or bankruptcy can lock you out"]},
-       {"title": "Your own wallet", "color": "up", "bullets": ["You hold the private keys", "Nobody can freeze your coins", "!Lose the seed phrase = lose everything"]}
-     ],
-     "column_lines": [1, 2], "verdict_line": 3, "verdict": "Not your keys, not your coins",
-     "lines": [
-      {"en": "After you buy, where do your coins live?", "fa": "بعد از خرید، کوین‌هایت کجا نگه داشته می‌شوند؟"},
-      {"en": "On an exchange it is easy to trade, but the exchange holds the keys. A hack, a freeze, or a bankruptcy can lock you out.", "fa": "در صرافی معامله آسان است، ولی کلیدها دست صرافی است؛ هک، مسدودی یا ورشکستگی می‌تواند دستت را کوتاه کند."},
-      {"en": "In your own wallet, you hold the keys and nobody can freeze your coins. But if you lose your seed phrase, it is gone forever.", "fa": "در کیف پول شخصی، کلید دست خودت است و کسی نمی‌تواند مسدودش کند؛ ولی اگر عبارت بازیابی را گم کنی، برای همیشه از دست رفته."},
-      {"en": "That is why people say: not your keys, not your coins.", "fa": "برای همین می‌گویند: کلید مال تو نیست، کوین هم مال تو نیست."}
-    ]},
-    {"type": "points", "chapter": "First buy", "heading": "Your first safe purchase: 4 steps",
-     "items": [["1. A well-known exchange", "Type the address yourself. No links from ads or DMs", "blue"],
-               ["2. Turn on two-factor (2FA)", "An authenticator app, not only SMS", "up"],
-               ["3. Verify your identity", "Real exchanges ask for ID (KYC)", "purp"],
-               ["4. Start small", "Learn with an amount you can afford to lose", "acc"]],
-     "lines": [
-      {"en": "Here is a simple checklist for your first purchase.", "fa": "این یک چک‌لیست ساده برای اولین خرید است."},
-      {"en": "One. Use a well known exchange, and type its address yourself. Never click links from ads or private messages.", "fa": "یک: از صرافی معتبر استفاده کن و آدرسش را خودت تایپ کن؛ روی لینک تبلیغ یا پیام خصوصی نزن."},
-      {"en": "Two. Turn on two factor security, with an authenticator app.", "fa": "دو: ورود دومرحله‌ای را با اپ احراز هویت روشن کن."},
-      {"en": "Three. Real exchanges will ask you to verify your identity.", "fa": "سه: صرافی‌های واقعی از تو مدرک هویتی می‌خواهند."},
-      {"en": "Four. Start small, while you learn.", "fa": "چهار: تا وقتی یاد می‌گیری، با مبلغ کم شروع کن."}
-    ]},
-    {"type": "points", "chapter": "Fees", "heading": "Fees: small, but they add up",
-     "items": [["Trading fee", "Often around 0.1% per spot trade on big exchanges", "blue"],
-               ["Spread", "The gap between the buy and the sell price", "purp"],
-               ["Withdrawal fee", "Paid to the network when you move coins out", "acc"]],
-     "lines": [
-      {"en": "Every purchase has costs.", "fa": "هر خرید هزینه‌هایی دارد."},
-      {"en": "A trading fee, often around zero point one percent per spot trade on big exchanges.", "fa": "کارمزد معامله؛ در صرافی‌های بزرگ معمولاً حدود یک‌دهم درصد برای هر معاملهٔ اسپات."},
-      {"en": "The spread, the gap between the buy and sell price.", "fa": "اسپرد؛ فاصلهٔ بین قیمت خرید و فروش."},
-      {"en": "And a withdrawal fee, when you move coins to your own wallet.", "fa": "و کارمزد برداشت، وقتی کوین را به کیف پول خودت منتقل می‌کنی."}
-    ]},
-    {"type": "warning", "chapter": "Scams", "heading": "Scams to avoid",
-     "items": ["Fake exchange sites and apps: check the address", "Never share codes, passwords or your seed phrase", "Real support never DMs you first"],
-     "lines": [
-      {"en": "Finally, three scams to avoid.", "fa": "در آخر، سه کلاهبرداری که باید از آن‌ها دوری کنی."},
-      {"en": "Fake exchange websites and apps. Always check the address.", "fa": "سایت و اپ جعلی صرافی؛ همیشه آدرس را چک کن."},
-      {"en": "Never share a login code, a password, or your seed phrase. With anyone.", "fa": "کد ورود، رمز یا عبارت بازیابی را هرگز به هیچ‌کس نده."},
-      {"en": "And real support will never send you a private message first.", "fa": "و پشتیبانی واقعی هیچ‌وقت اول به تو پیام خصوصی نمی‌دهد."}
-    ]},
-    {"type": "outro", "chapter": "Next lesson", "next": "Lesson 3: Reading candles & timeframes",
-     "lines": [
-      {"en": "Next lesson: how to read candles and timeframes.", "fa": "درس بعد: خواندن کندل‌ها و تایم‌فریم‌ها."},
-      {"en": "Subscribe so you don't miss it. This is education, not financial advice.", "fa": "سابسکرایب کن تا جا نمانی. این آموزش است، نه توصیهٔ مالی."}
-    ]}
-  ]
+ "id": "ep02",
+ "number": 2,
+ "level": "BEGINNER",
+ "title": "Your first safe buy",
+ "subtitle": "Exchanges, wallets, fees and scams: the safe way in",
+ "yt_title": "How to Buy Crypto Safely: Exchanges vs Wallets | Lesson 2 | اولین خرید امن کریپتو",
+ "yt_short_title": "Not your keys, not your coins: exchange vs wallet | کیف پول یا صرافی؟ #shorts",
+ "summary_en": "Lesson 2 of the CryptoAI Academy course, from zero to pro trading: what a crypto exchange is (CEX, DEX and swap services), the difference between keeping coins on an exchange and in your own wallet, a 4-step checklist for your first safe purchase, trading fees, and the scams to avoid.",
+ "summary_fa": "درس دوم دورهٔ آکادمی CryptoAI: صرافی کریپتو چیست (متمرکز، غیرمتمرکز و سرویس‌های تبدیل)، فرق نگه داشتن کوین در صرافی با کیف پول شخصی، چک‌لیست ۴ مرحله‌ای اولین خرید امن، کارمزدها و کلاهبرداری‌هایی که باید از آن‌ها دوری کنی.",
+ "short_scenes": [
+  2
+ ],
+ "short_hook": "Exchange or your own wallet?",
+ "short_hook_fa": "صرافی یا کیف پول شخصی؟",
+ "scenes": [
+  {
+   "type": "title",
+   "chapter": "Intro",
+   "lines": [
+    {
+     "en": "Welcome back to CryptoAI Academy.",
+     "fa": "دوباره به آکادمی CryptoAI خوش آمدی."
+    },
+    {
+     "en": "Lesson two. How to buy your first crypto, safely.",
+     "fa": "درس دوم: چطور اولین کریپتویت را امن بخری."
+    }
+   ]
+  },
+  {
+   "type": "points",
+   "chapter": "Exchanges",
+   "heading": "Where you buy crypto",
+   "items": [
+    [
+     "Centralized exchange (CEX)",
+     "Binance, Coinbase, Kraken: works like a banking app",
+     "blue"
+    ],
+    [
+     "Decentralized exchange (DEX)",
+     "Swap directly from your own wallet, no account",
+     "purp"
+    ],
+    [
+     "Swap services",
+     "Quick one-off conversions between coins",
+     "acc"
+    ]
+   ],
+   "lines": [
+    {
+     "en": "You buy crypto on an exchange.",
+     "fa": "کریپتو را از صرافی می‌خری."
+    },
+    {
+     "en": "A centralized exchange, like Binance, Coinbase or Kraken, works much like a banking app.",
+     "fa": "صرافی متمرکز، مثل بایننس، کوین‌بیس یا کراکن، شبیه یک اپ بانکی کار می‌کند."
+    },
+    {
+     "en": "A decentralized exchange lets you swap straight from your own wallet, with no account.",
+     "fa": "صرافی غیرمتمرکز بدون حساب کاربری، مستقیم از کیف پول خودت تبدیل انجام می‌دهد."
+    },
+    {
+     "en": "And swap services do quick, one off conversions between coins.",
+     "fa": "و سرویس‌های تبدیل، یک کوین را سریع به کوین دیگر تبدیل می‌کنند."
+    }
+   ]
+  },
+  {
+   "type": "compare",
+   "chapter": "Keys",
+   "heading": "Exchange wallet vs your own wallet",
+   "columns": [
+    {
+     "title": "On the exchange",
+     "color": "blue",
+     "bullets": [
+      "Easy to buy, sell and trade",
+      "!The exchange holds your keys",
+      "!Hacks, freezes or bankruptcy can lock you out"
+     ]
+    },
+    {
+     "title": "Your own wallet",
+     "color": "up",
+     "bullets": [
+      "You hold the private keys",
+      "Nobody can freeze your coins",
+      "!Lose the seed phrase = lose everything"
+     ]
+    }
+   ],
+   "column_lines": [
+    1,
+    2
+   ],
+   "verdict_line": 3,
+   "verdict": "Not your keys, not your coins",
+   "lines": [
+    {
+     "en": "After you buy, where do your coins live?",
+     "fa": "بعد از خرید، کوین‌هایت کجا نگه داشته می‌شوند؟"
+    },
+    {
+     "en": "On an exchange it is easy to trade, but the exchange holds the keys. A hack, a freeze, or a bankruptcy can lock you out.",
+     "fa": "در صرافی معامله آسان است، ولی کلیدها دست صرافی است؛ هک، مسدودی یا ورشکستگی می‌تواند دستت را کوتاه کند."
+    },
+    {
+     "en": "In your own wallet, you hold the keys and nobody can freeze your coins. But if you lose your seed phrase, it is gone forever.",
+     "fa": "در کیف پول شخصی، کلید دست خودت است و کسی نمی‌تواند مسدودش کند؛ ولی اگر عبارت بازیابی را گم کنی، برای همیشه از دست رفته."
+    },
+    {
+     "en": "That is why people say: not your keys, not your coins.",
+     "fa": "برای همین می‌گویند: کلید مال تو نیست، کوین هم مال تو نیست."
+    }
+   ]
+  },
+  {
+   "type": "points",
+   "chapter": "First buy",
+   "heading": "Your first safe purchase: 4 steps",
+   "items": [
+    [
+     "1. A well-known exchange",
+     "Type the address yourself. No links from ads or DMs",
+     "blue"
+    ],
+    [
+     "2. Turn on two-factor (2FA)",
+     "An authenticator app, not only SMS",
+     "up"
+    ],
+    [
+     "3. Verify your identity",
+     "Real exchanges ask for ID (KYC)",
+     "purp"
+    ],
+    [
+     "4. Start small",
+     "Learn with an amount you can afford to lose",
+     "acc"
+    ]
+   ],
+   "lines": [
+    {
+     "en": "Here is a simple checklist for your first purchase.",
+     "fa": "این یک چک‌لیست ساده برای اولین خرید است."
+    },
+    {
+     "en": "One. Use a well known exchange, and type its address yourself. Never click links from ads or private messages.",
+     "fa": "یک: از صرافی معتبر استفاده کن و آدرسش را خودت تایپ کن؛ روی لینک تبلیغ یا پیام خصوصی نزن."
+    },
+    {
+     "en": "Two. Turn on two factor security, with an authenticator app.",
+     "fa": "دو: ورود دومرحله‌ای را با اپ احراز هویت روشن کن."
+    },
+    {
+     "en": "Three. Real exchanges will ask you to verify your identity.",
+     "fa": "سه: صرافی‌های واقعی از تو مدرک هویتی می‌خواهند."
+    },
+    {
+     "en": "Four. Start small, while you learn.",
+     "fa": "چهار: تا وقتی یاد می‌گیری، با مبلغ کم شروع کن."
+    }
+   ]
+  },
+  {
+   "type": "points",
+   "chapter": "Fees",
+   "heading": "Fees: small, but they add up",
+   "items": [
+    [
+     "Trading fee",
+     "Often around 0.1% per spot trade on big exchanges",
+     "blue"
+    ],
+    [
+     "Spread",
+     "The gap between the buy and the sell price",
+     "purp"
+    ],
+    [
+     "Withdrawal fee",
+     "Paid to the network when you move coins out",
+     "acc"
+    ]
+   ],
+   "lines": [
+    {
+     "en": "Every purchase has costs.",
+     "fa": "هر خرید هزینه‌هایی دارد."
+    },
+    {
+     "en": "A trading fee, often around zero point one percent per spot trade on big exchanges.",
+     "fa": "کارمزد معامله؛ در صرافی‌های بزرگ معمولاً حدود یک‌دهم درصد برای هر معاملهٔ اسپات."
+    },
+    {
+     "en": "The spread, the gap between the buy and sell price.",
+     "fa": "اسپرد؛ فاصلهٔ بین قیمت خرید و فروش."
+    },
+    {
+     "en": "And a withdrawal fee, when you move coins to your own wallet.",
+     "fa": "و کارمزد برداشت، وقتی کوین را به کیف پول خودت منتقل می‌کنی."
+    }
+   ]
+  },
+  {
+   "type": "warning",
+   "chapter": "Scams",
+   "heading": "Scams to avoid",
+   "items": [
+    "Fake exchange sites and apps: check the address",
+    "Never share codes, passwords or your seed phrase",
+    "Real support never DMs you first"
+   ],
+   "lines": [
+    {
+     "en": "Finally, three scams to avoid.",
+     "fa": "در آخر، سه کلاهبرداری که باید از آن‌ها دوری کنی."
+    },
+    {
+     "en": "Fake exchange websites and apps. Always check the address.",
+     "fa": "سایت و اپ جعلی صرافی؛ همیشه آدرس را چک کن."
+    },
+    {
+     "en": "Never share a login code, a password, or your seed phrase. With anyone.",
+     "fa": "کد ورود، رمز یا عبارت بازیابی را هرگز به هیچ‌کس نده."
+    },
+    {
+     "en": "And real support will never send you a private message first.",
+     "fa": "و پشتیبانی واقعی هیچ‌وقت اول به تو پیام خصوصی نمی‌دهد."
+    }
+   ]
+  },
+  {
+   "type": "outro",
+   "chapter": "Next lesson",
+   "next": "Lesson 3: Reading candles & timeframes",
+   "lines": [
+    {
+     "en": "Next lesson: how to read candles and timeframes.",
+     "fa": "درس بعد: خواندن کندل‌ها و تایم‌فریم‌ها."
+    },
+    {
+     "en": "Subscribe so you don't miss it. This is education, not financial advice.",
+     "fa": "سابسکرایب کن تا جا نمانی. این آموزش است، نه توصیهٔ مالی."
+    }
+   ]
+  }
+ ],
+ "thumb": {
+  "lines": [
+   "BUY CRYPTO",
+   "SAFELY"
+  ],
+  "fa": "اولین خرید امن کریپتو",
+  "icon": "shield",
+  "color": "up"
+ }
 }
