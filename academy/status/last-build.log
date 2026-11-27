@@ -1,24 +1,7 @@
-voice: en-US-AndrewMultilingualNeural
-rendering ep02: 129.1s
-{
- "id": "ep02",
- "duration": 129.1,
- "chapters": "0:00 Intro\n0:08 Exchanges\n0:28 Keys\n0:55 First buy\n1:21 Fees\n1:38 Scams\n1:56 Next lesson",
- "long_bytes": 3219232,
- "short_bytes": 472027
-}
-  uguu: rc=0 out='https://h.uguu.se/eHzzaMEdXkdL.mp4' err=''
-  verify https://h.uguu.se/eHzzaMEdXkdL.mp4: 200 video/mp4 ok=True
-  uguu: rc=0 out='https://n.uguu.se/oSqlyOLzyyEa.mp4' err=''
-  verify https://n.uguu.se/oSqlyOLzyyEa.mp4: 200 video/mp4 ok=True
-{
- "id": "ep02",
- "duration": 129.1,
- "chapters": "0:00 Intro\n0:08 Exchanges\n0:28 Keys\n0:55 First buy\n1:21 Fees\n1:38 Scams\n1:56 Next lesson",
- "long_bytes": 3219232,
- "short_bytes": 472027,
- "long_url": "https://h.uguu.se/eHzzaMEdXkdL.mp4",
- "short_url": "https://n.uguu.se/oSqlyOLzyyEa.mp4",
- "built_at": "2026-11-27T10:58:19+00:00",
- "published": false
-}
+  uguu: rc=0 out='https://h.uguu.se/hSbnnneYTuah.jpg' err=''
+  verify https://h.uguu.se/hSbnnneYTuah.jpg: 200 image/jpeg ok=True
+ep01 thumb: https://h.uguu.se/hSbnnneYTuah.jpg
+  uguu: rc=0 out='https://n.uguu.se/zlvKMGqJWmGx.jpg' err=''
+  verify https://n.uguu.se/zlvKMGqJWmGx.jpg: 200 image/jpeg ok=True
+ep02 thumb: https://n.uguu.se/zlvKMGqJWmGx.jpg
+nothing to build
