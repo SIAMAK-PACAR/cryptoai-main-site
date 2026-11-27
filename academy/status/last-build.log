@@ -1,0 +1,20 @@
+voice: en-US-AndrewMultilingualNeural
+rendering ep01: 146.2s
+{
+ "id": "ep01",
+ "duration": 146.2,
+ "chapters": "0:00 Intro\n0:09 Money today\n0:22 No middleman\n0:34 Blockchain\n0:48 Bitcoin\n1:02 Other coins\n1:18 Prices & candles\n1:37 Wallets & keys\n1:55 3 safety rules\n2:13 Next lesson",
+ "long_bytes": 4084249,
+ "short_bytes": 520058
+}
+{
+ "id": "ep01",
+ "duration": 146.2,
+ "chapters": "0:00 Intro\n0:09 Money today\n0:22 No middleman\n0:34 Blockchain\n0:48 Bitcoin\n1:02 Other coins\n1:18 Prices & candles\n1:37 Wallets & keys\n1:55 3 safety rules\n2:13 Next lesson",
+ "long_bytes": 4084249,
+ "short_bytes": 520058,
+ "long_url": "https://tmpfiles.org/dl/wwAIvjvRijGq/ep01-long.mp4",
+ "short_url": "https://tmpfiles.org/dl/woAPvHvNRRUd/ep01-short.mp4",
+ "built_at": "2026-11-27T09:28:05+00:00",
+ "published": false
+}
