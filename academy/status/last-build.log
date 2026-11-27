@@ -1,36 +1,24 @@
 voice: en-US-AndrewMultilingualNeural
-rendering ep01: 147.1s
+rendering ep02: 129.1s
 {
- "id": "ep01",
- "duration": 147.1,
- "chapters": "0:00 Intro\n0:09 Money today\n0:22 No middleman\n0:34 Blockchain\n0:49 Bitcoin\n1:02 Other coins\n1:19 Prices & candles\n1:38 Wallets & keys\n1:55 3 safety rules\n2:13 Next lesson",
- "long_bytes": 4144536,
- "short_bytes": 525830
+ "id": "ep02",
+ "duration": 129.1,
+ "chapters": "0:00 Intro\n0:08 Exchanges\n0:28 Keys\n0:55 First buy\n1:21 Fees\n1:38 Scams\n1:56 Next lesson",
+ "long_bytes": 3219232,
+ "short_bytes": 472027
 }
-  catbox: rc=0 out='Invalid uploader' err=''
-  catbox: rc=0 out='Invalid uploader' err=''
-  litterbox: rc=0 out='<!doctype html><html lang="en"><meta charset="UTF-8"><meta content="nofollow,noarchive,noindex" name="robots"><title>500' err=''
-  litterbox: rc=0 out='<!doctype html><html lang="en"><meta charset="UTF-8"><meta content="nofollow,noarchive,noindex" name="robots"><title>500' err=''
-  0x0: rc=0 out='uploads disabled because it’s been almost nothing but AI botnet spam for the past few months. will be back with a few ch' err=''
-  0x0: rc=0 out='uploads disabled because it’s been almost nothing but AI botnet spam for the past few months. will be back with a few ch' err=''
-  uguu: rc=0 out='https://h.uguu.se/OAbyjHGHcott.mp4' err=''
-  verify https://h.uguu.se/OAbyjHGHcott.mp4: 200 video/mp4 ok=True
-  catbox: rc=0 out='Invalid uploader' err=''
-  catbox: rc=0 out='Invalid uploader' err=''
-  litterbox: rc=0 out='<!doctype html><html lang="en"><meta charset="UTF-8"><meta content="nofollow,noarchive,noindex" name="robots"><title>500' err=''
-  litterbox: rc=0 out='<!doctype html><html lang="en"><meta charset="UTF-8"><meta content="nofollow,noarchive,noindex" name="robots"><title>500' err=''
-  0x0: rc=28 out='' err='curl: (28) Connection timed out after 300463 milliseconds'
-  0x0: rc=0 out='uploads disabled because it’s been almost nothing but AI botnet spam for the past few months. will be back with a few ch' err=''
-  uguu: rc=0 out='https://d.uguu.se/tnJCwSzAapuC.mp4' err=''
-  verify https://d.uguu.se/tnJCwSzAapuC.mp4: 200 video/mp4 ok=True
+  uguu: rc=0 out='https://h.uguu.se/eHzzaMEdXkdL.mp4' err=''
+  verify https://h.uguu.se/eHzzaMEdXkdL.mp4: 200 video/mp4 ok=True
+  uguu: rc=0 out='https://n.uguu.se/oSqlyOLzyyEa.mp4' err=''
+  verify https://n.uguu.se/oSqlyOLzyyEa.mp4: 200 video/mp4 ok=True
 {
- "id": "ep01",
- "duration": 147.1,
- "chapters": "0:00 Intro\n0:09 Money today\n0:22 No middleman\n0:34 Blockchain\n0:49 Bitcoin\n1:02 Other coins\n1:19 Prices & candles\n1:38 Wallets & keys\n1:55 3 safety rules\n2:13 Next lesson",
- "long_bytes": 4144536,
- "short_bytes": 525830,
- "long_url": "https://h.uguu.se/OAbyjHGHcott.mp4",
- "short_url": "https://d.uguu.se/tnJCwSzAapuC.mp4",
- "built_at": "2026-11-27T09:40:10+00:00",
+ "id": "ep02",
+ "duration": 129.1,
+ "chapters": "0:00 Intro\n0:08 Exchanges\n0:28 Keys\n0:55 First buy\n1:21 Fees\n1:38 Scams\n1:56 Next lesson",
+ "long_bytes": 3219232,
+ "short_bytes": 472027,
+ "long_url": "https://h.uguu.se/eHzzaMEdXkdL.mp4",
+ "short_url": "https://n.uguu.se/oSqlyOLzyyEa.mp4",
+ "built_at": "2026-11-27T10:58:19+00:00",
  "published": false
 }
