@@ -557,9 +557,26 @@ def probe_dur(path):
     return float(r.stdout.strip())
 
 
+VOICES = [VOICE, "en-US-AndrewNeural", "en-US-GuyNeural", "en-US-EmmaMultilingualNeural", "en-US-AriaNeural"]
+_voice_ok: list = []
+
+
 async def _tts(text, path):
     import edge_tts
-    await edge_tts.Communicate(text, VOICE, rate="-4%").save(str(path))
+    order = _voice_ok[:1] + [v for v in VOICES if v not in _voice_ok[:1]]
+    last = None
+    for v in order:
+        for rate in ("-4%", None):
+            try:
+                kw = {"rate": rate} if rate else {}
+                await edge_tts.Communicate(text, v, **kw).save(str(path))
+                if path.stat().st_size > 1000:
+                    if not _voice_ok:
+                        _voice_ok.append(v); print("voice:", v, flush=True)
+                    return
+            except Exception as e:
+                last = e
+    raise RuntimeError(f"no TTS voice worked: {last}")
 
 
 def build_audio(ep, work: Path, silent: bool):
@@ -574,12 +591,13 @@ def build_audio(ep, work: Path, silent: bool):
                 subprocess.run([FFMPEG, "-v", "error", "-y", "-f", "lavfi", "-i", "anullsrc=r=24000:cl=mono", "-t", f"{dur:.3f}", str(wav)], check=True)
             else:
                 mp3 = work / f"s{si:02d}_{li:02d}.mp3"
-                for attempt in range(4):
+                for attempt in range(3):
                     try:
                         asyncio.run(_tts(ln["en"], mp3)); break
                     except Exception:
-                        if attempt == 3:
+                        if attempt == 2:
                             raise
+                        import time; time.sleep(5)
                 subprocess.run([FFMPEG, "-v", "error", "-y", "-i", str(mp3), "-ar", "24000", "-ac", "1", str(wav)], check=True)
                 dur = probe_dur(wav)
             lines.append({"en": ln["en"], "fa": ln["fa"], "t0": t, "t1": t + dur})
