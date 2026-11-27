@@ -1,0 +1,287 @@
+{
+ "id": "ep01",
+ "number": 1,
+ "level": "BEGINNER",
+ "title": "What is crypto?",
+ "subtitle": "Money, ledgers, blockchain and Bitcoin, from zero",
+ "yt_title": "What is Crypto? Blockchain & Bitcoin Explained | Lesson 1 | کریپتو چیست؟ آموزش از صفر",
+ "yt_short_title": "What is a Blockchain? Explained in 40 seconds | بلاکچین چیست؟ #shorts",
+ "summary_en": "Lesson 1 of the CryptoAI Academy course, from zero to pro trading: what crypto is, how a blockchain works, why Bitcoin is limited to 21 million, how wallets and private keys work, and three rules to stay safe before you start.",
+ "summary_fa": "درس اول دورهٔ آکادمی CryptoAI، از صفر تا معامله‌گری حرفه‌ای: کریپتو چیست، بلاکچین چطور کار می‌کند، چرا تعداد بیت‌کوین ۲۱ میلیون است، کیف پول و کلید خصوصی، و سه قانون ایمنی قبل از شروع.",
+ "tags": "crypto,what is crypto,blockchain,bitcoin,crypto for beginners,crypto course,کریپتو,ارز دیجیتال,بلاکچین,بیت کوین,آموزش کریپتو,CryptoAI",
+ "short_scenes": [
+  2,
+  3
+ ],
+ "short_hook": "What is a blockchain?",
+ "short_hook_fa": "بلاکچین چیست؟",
+ "scenes": [
+  {
+   "type": "title",
+   "chapter": "Intro",
+   "lines": [
+    {
+     "en": "Welcome to CryptoAI Academy. From zero, to pro trading.",
+     "fa": "به آکادمی CryptoAI خوش آمدی؛ از صفر تا معامله‌گری حرفه‌ای."
+    },
+    {
+     "en": "Lesson one. What is crypto, really?",
+     "fa": "درس اول: کریپتو واقعاً چیست؟"
+    }
+   ]
+  },
+  {
+   "type": "flow",
+   "chapter": "Money today",
+   "heading": "Money today: a bank in the middle",
+   "nodes": [
+    [
+     "You",
+     "👤"
+    ],
+    [
+     "Bank",
+     "🏦"
+    ],
+    [
+     "Friend",
+     "👤"
+    ]
+   ],
+   "note": "The bank keeps the ledger",
+   "lines": [
+    {
+     "en": "When you send money today, a bank sits in the middle.",
+     "fa": "امروز وقتی پول می‌فرستی، یک بانک وسط کار است."
+    },
+    {
+     "en": "The bank keeps the record, the ledger, of who owns what.",
+     "fa": "بانک دفتر حساب‌ها را نگه می‌دارد؛ اینکه چه کسی چقدر دارد."
+    },
+    {
+     "en": "And you have to trust it. It can freeze, delay, or block your money.",
+     "fa": "و باید به آن اعتماد کنی؛ می‌تواند پولت را مسدود یا معطل کند."
+    }
+   ]
+  },
+  {
+   "type": "network",
+   "chapter": "No middleman",
+   "heading": "Crypto: one ledger, thousands of copies",
+   "lines": [
+    {
+     "en": "Crypto removes the middleman.",
+     "fa": "کریپتو واسطه را حذف می‌کند."
+    },
+    {
+     "en": "The ledger is copied on thousands of computers around the world.",
+     "fa": "دفتر حساب روی هزاران کامپیوتر در سراسر دنیا کپی شده است."
+    },
+    {
+     "en": "They all check every payment, so no single company controls it.",
+     "fa": "همه هر پرداخت را بررسی می‌کنند؛ پس هیچ شرکتی به‌تنهایی کنترلش را ندارد."
+    }
+   ]
+  },
+  {
+   "type": "chain",
+   "chapter": "Blockchain",
+   "heading": "Blocks, locked into a chain",
+   "lines": [
+    {
+     "en": "Payments are grouped together into blocks.",
+     "fa": "پرداخت‌ها در دسته‌هایی به اسم «بلاک» جمع می‌شوند."
+    },
+    {
+     "en": "Each new block is locked to the one before it. A chain of blocks.",
+     "fa": "هر بلاک جدید به بلاک قبلی قفل می‌شود؛ یک زنجیره از بلاک‌ها."
+    },
+    {
+     "en": "That is a blockchain. To change old history, you would have to rewrite every block after it.",
+     "fa": "این یعنی بلاکچین. برای تغییر گذشته باید همهٔ بلاک‌های بعدی را بازنویسی کنی؛ تقریباً غیرممکن."
+    }
+   ]
+  },
+  {
+   "type": "number",
+   "chapter": "Bitcoin",
+   "heading": "Bitcoin",
+   "big": "21,000,000",
+   "caption": "the maximum number of bitcoin, ever",
+   "lines": [
+    {
+     "en": "Bitcoin was the first cryptocurrency. It launched in two thousand nine.",
+     "fa": "بیت‌کوین اولین ارز دیجیتال بود؛ سال ۲۰۰۹ راه افتاد."
+    },
+    {
+     "en": "There will only ever be twenty one million bitcoin.",
+     "fa": "تعداد بیت‌کوین هیچ‌وقت از ۲۱ میلیون بیشتر نمی‌شود."
+    },
+    {
+     "en": "No one can print more. That limited supply is a big part of its value.",
+     "fa": "کسی نمی‌تواند بیشتر چاپ کند؛ همین کمیاب بودن بخش بزرگی از ارزش آن است."
+    }
+   ]
+  },
+  {
+   "type": "points",
+   "chapter": "Other coins",
+   "heading": "Thousands of other coins",
+   "items": [
+    [
+     "Ethereum",
+     "Runs apps and smart contracts",
+     "blue"
+    ],
+    [
+     "Stablecoins (USDT)",
+     "Built to stay at $1",
+     "up"
+    ],
+    [
+     "Altcoins",
+     "Smaller coins, much higher risk",
+     "acc"
+    ]
+   ],
+   "lines": [
+    {
+     "en": "Today there are thousands of other coins.",
+     "fa": "امروز هزاران کوین دیگر هم وجود دارد."
+    },
+    {
+     "en": "Ethereum runs apps and smart contracts.",
+     "fa": "اتریوم برنامه‌ها و قراردادهای هوشمند را اجرا می‌کند."
+    },
+    {
+     "en": "Stablecoins, like U S D T, are built to stay at one dollar.",
+     "fa": "استیبل‌کوین‌هایی مثل USDT طوری ساخته شده‌اند که همیشه یک دلار بمانند."
+    },
+    {
+     "en": "And many small altcoins. Higher risk, often much higher.",
+     "fa": "و کلی آلت‌کوین کوچک؛ با ریسک بالاتر، اغلب خیلی بالاتر."
+    }
+   ]
+  },
+  {
+   "type": "chart",
+   "chapter": "Prices & candles",
+   "heading": "Prices move 24/7",
+   "lens_line": 1,
+   "lens_title": "Anatomy of a candle",
+   "lens_text": [
+    "Body: where price opened",
+    "and closed.",
+    "Wicks: the highest and",
+    "lowest price reached."
+   ],
+   "lines": [
+    {
+     "en": "Crypto prices move every second, twenty four hours a day.",
+     "fa": "قیمت کریپتو هر ثانیه و ۲۴ ساعته تغییر می‌کند."
+    },
+    {
+     "en": "Each candle shows where price opened, where it closed, and how far it moved.",
+     "fa": "هر کندل نشان می‌دهد قیمت از کجا شروع شد، کجا بسته شد و چقدر نوسان داشت."
+    },
+    {
+     "en": "Green means it closed higher. Red means it closed lower.",
+     "fa": "سبز یعنی بالاتر بسته شد؛ قرمز یعنی پایین‌تر."
+    },
+    {
+     "en": "Big swings are normal. That is both the opportunity, and the danger.",
+     "fa": "نوسان شدید طبیعی است؛ هم فرصت است، هم خطر."
+    }
+   ]
+  },
+  {
+   "type": "points",
+   "chapter": "Wallets & keys",
+   "heading": "Your wallet",
+   "items": [
+    [
+     "Wallet",
+     "Where you hold your coins",
+     "blue"
+    ],
+    [
+     "Address",
+     "Like an account number: safe to share",
+     "up"
+    ],
+    [
+     "Private key / seed phrase",
+     "The password to everything: NEVER share",
+     "dn"
+    ]
+   ],
+   "lines": [
+    {
+     "en": "To hold crypto, you use a wallet.",
+     "fa": "برای نگه داشتن کریپتو از کیف پول استفاده می‌کنی."
+    },
+    {
+     "en": "Your address is like an account number. It is safe to share.",
+     "fa": "آدرس کیف پول مثل شماره حساب است؛ دادنش به دیگران امن است."
+    },
+    {
+     "en": "Your private key, or seed phrase, is the password to everything.",
+     "fa": "کلید خصوصی یا عبارت بازیابی، رمز همه‌چیز است."
+    },
+    {
+     "en": "Never share it. Anyone who has it, owns your coins.",
+     "fa": "هرگز به کسی نده؛ هر کس داشته باشد، صاحب کوین‌هایت است."
+    }
+   ],
+   "item_lines": [
+    0,
+    1,
+    2
+   ],
+   "highlight_line": 3
+  },
+  {
+   "type": "warning",
+   "chapter": "3 safety rules",
+   "heading": "Three rules before you start",
+   "items": [
+    "Only invest money you can afford to lose",
+    "Guaranteed profit = scam. Always.",
+    "Learn risk management first (stop-loss)"
+   ],
+   "lines": [
+    {
+     "en": "Before you start, three rules.",
+     "fa": "قبل از شروع، سه قانون:"
+    },
+    {
+     "en": "One. Only invest money you can afford to lose.",
+     "fa": "یک: فقط پولی وارد کن که از دست دادنش زندگی‌ات را خراب نکند."
+    },
+    {
+     "en": "Two. Anyone promising guaranteed profits is running a scam.",
+     "fa": "دو: هر کس سود تضمینی وعده بدهد، کلاهبردار است."
+    },
+    {
+     "en": "Three. Learn risk management first. We will cover stop losses step by step.",
+     "fa": "سه: اول مدیریت ریسک را یاد بگیر؛ استاپ‌لاس را قدم‌به‌قدم آموزش می‌دهیم."
+    }
+   ]
+  },
+  {
+   "type": "outro",
+   "chapter": "Next lesson",
+   "next": "Lesson 2: Exchanges, wallets & your first safe purchase",
+   "lines": [
+    {
+     "en": "Next lesson: exchanges, wallets, and your first safe purchase.",
+     "fa": "درس بعد: صرافی، کیف پول و اولین خرید امن."
+    },
+    {
+     "en": "Subscribe so you don't miss it. This is education, not financial advice.",
+     "fa": "سابسکرایب کن تا جا نمانی. این آموزش است، نه توصیهٔ مالی."
+    }
+   ]
+  }
+ ]
+}

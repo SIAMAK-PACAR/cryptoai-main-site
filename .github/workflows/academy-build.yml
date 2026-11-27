@@ -1,0 +1,46 @@
+name: academy-build
+
+# Renders CryptoAI Academy lessons (English neural voice + Persian subtitles) on academy-* branches.
+# Never touches the website: Render deploys only from main, and this runs only on academy branches.
+on:
+  push:
+    branches: ["academy-*"]
+    paths-ignore: ["academy/status/**"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: academy-build-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - name: System packages
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg libraqm0 libfribidi0 libharfbuzz0b
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Python packages
+        run: pip install -q "pillow>=10" edge-tts
+      - name: Check Persian text shaping
+        run: python -c "from PIL import features; assert features.check('raqm'), 'raqm missing'; print('raqm ok')"
+      - name: Render and host the next lesson
+        shell: bash
+        run: |
+          set -o pipefail
+          mkdir -p academy/status
+          python academy/build_ci.py 2>&1 | tail -c 20000 | tee academy/status/last-build.log
+      - name: Save status
+        if: always()
+        run: |
+          mkdir -p academy/status
+          git config user.name "cryptoai-academy-bot"
+          git config user.email "academy-bot@users.noreply.github.com"
+          git add academy/status
+          git diff --cached --quiet || (git commit -m "academy: build status [skip ci]" && git push)
