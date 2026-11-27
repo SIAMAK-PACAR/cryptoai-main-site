@@ -28,11 +28,11 @@ def upload(path: Path) -> str:
     """Public hosting so the YouTube uploader can download the file. Several hosts, each verified."""
     size = path.stat().st_size
     hosts = [
+        ("uguu", ["curl", "-sS", "-F", f"files[]=@{path}", "https://uguu.se/upload?output=text"]),
         ("catbox", ["curl", "-sS", "-F", "reqtype=fileupload", "-F", f"fileToUpload=@{path}", "https://catbox.moe/user/api.php"]),
         ("litterbox", ["curl", "-sS", "-F", "reqtype=fileupload", "-F", "time=72h", "-F", f"fileToUpload=@{path}",
                        "https://litterbox.catbox.moe/resources/internals/api.php"]),
         ("0x0", ["curl", "-sS", "-A", "cryptoai-academy/1.0", "-F", f"file=@{path}", "-F", "expires=72", "https://0x0.st"]),
-        ("uguu", ["curl", "-sS", "-F", f"files[]=@{path}", "https://uguu.se/upload?output=text"]),
     ]
     for name, cmd in hosts:
         for attempt in range(2):
