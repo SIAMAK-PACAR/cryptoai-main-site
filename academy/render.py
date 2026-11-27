@@ -361,14 +361,15 @@ def sc_points(im, c, t):
         if a <= 0:
             continue
         col = COL.get(colk, BLUE); act = c.active(t) == il[i] or (hi is not None and cur == hi and i == len(items) - 1)
-        y = s(250 + i * 190)
-        def it(ov, tt=tt, sub=sub, col=col, act=act, y=y):
+        n_ = len(items); step_ = 190 if n_ <= 3 else 158; hh_ = 150 if n_ <= 3 else 128
+        y = s(240 + i * step_)
+        def it(ov, tt=tt, sub=sub, col=col, act=act, y=y, hh_=hh_):
             dd = ImageDraw.Draw(ov); x = s(160) + int((1 - a) * s(30))
-            dd.rounded_rectangle((x, y, s(1760), y + s(150)), radius=s(18), fill=PANEL if not act else tuple(int(PANEL[q] * 0.7 + col[q] * 0.12) for q in range(3)),
+            dd.rounded_rectangle((x, y, s(1760), y + s(hh_)), radius=s(18), fill=PANEL if not act else tuple(int(PANEL[q] * 0.7 + col[q] * 0.12) for q in range(3)),
                                  outline=col + ((255,) if act else (90,)), width=s(2))
-            dd.rounded_rectangle((x, y, x + s(12), y + s(150)), radius=s(6), fill=col)
-            dd.text((x + s(50), y + s(26)), tt, font=F("Inter-Bold.otf", 40), fill=TXT if act else (200, 205, 215))
-            dd.text((x + s(50), y + s(86)), sub, font=F("Inter-Regular.otf", 30), fill=col if act else MUTE)
+            dd.rounded_rectangle((x, y, x + s(12), y + s(hh_)), radius=s(6), fill=col)
+            dd.text((x + s(50), y + s(hh_ * 0.17)), tt, font=F("Inter-Bold.otf", 40), fill=TXT if act else (200, 205, 215))
+            dd.text((x + s(50), y + s(hh_ * 0.57)), sub, font=F("Inter-Regular.otf", 30), fill=col if act else MUTE)
         fade(im, it, a)
 
 
@@ -393,6 +394,37 @@ def sc_warning(im, c, t):
             f = F("Inter-Bold.otf", 40); n = str(i + 1); dd.text((x + s(70) - dd.textlength(n, font=f) / 2, y + s(44)), n, font=f, fill=(255, 255, 255))
             dd.text((x + s(140), y + s(44)), tx, font=F("Inter-SemiBold.otf", 40), fill=TXT if act else (200, 205, 215))
         fade(im, it, ai)
+
+
+def sc_compare(im, c, t):
+    """Two columns side by side (e.g. exchange wallet vs own wallet); optional verdict banner."""
+    heading(im, c, t)
+    cols = c.sc["columns"]; ll = c.sc.get("column_lines", [1, 2]); vl = c.sc.get("verdict_line")
+    for k, colspec in enumerate(cols):
+        a = appear(t, c.L(ll[k]))
+        if a <= 0:
+            continue
+        col = COL.get(colspec.get("color", "blue"), BLUE); act = c.active(t) == ll[k]
+        x0 = 160 + k * 820
+        def cc(ov, colspec=colspec, col=col, act=act, x0=x0):
+            dd = ImageDraw.Draw(ov); x = s(x0); y = s(240) + int((1 - a) * s(24))
+            dd.rounded_rectangle((x, y, x + s(780), y + s(520)), radius=s(20), fill=PANEL, outline=col + ((255,) if act else (110,)), width=s(3 if act else 2))
+            dd.rounded_rectangle((x, y, x + s(780), y + s(90)), radius=s(20), fill=tuple(int(PANEL[q] * 0.6 + col[q] * 0.25) for q in range(3)))
+            dd.text((x + s(34), y + s(22)), colspec["title"], font=F("Inter-Bold.otf", 38), fill=TXT)
+            for q, b in enumerate(colspec["bullets"]):
+                good = not b.startswith("!")
+                bb = b.lstrip("!")
+                cy = y + s(150 + q * 110)
+                dd.ellipse((x + s(34), cy, x + s(70), cy + s(36)), fill=UP if good else DN)
+                dd.text((x + s(52), cy + s(2)), "+" if good else "–", font=F("Inter-Bold.otf", 28), fill=BG, anchor="ma")
+                for z, ln in enumerate(wrap(dd, bb, F("Inter-SemiBold.otf", 30), s(640))[:2]):
+                    dd.text((x + s(92), cy + s(z * 38)), ln, font=F("Inter-SemiBold.otf", 30), fill=TXT if act else (200, 205, 215))
+        fade(im, cc, a)
+    if vl is not None and vl < len(c.starts):
+        def vd(ov):
+            dd = ImageDraw.Draw(ov); f = F("InterDisplay-Bold.otf", 40); txt = c.sc.get("verdict", "")
+            w_ = dd.textlength(txt, font=f); pill(dd, (s(960) - w_ / 2 - s(24), s(790)), txt, f, BG, ACC, (24, 10))
+        fade(im, vd, appear(t, c.L(vl)))
 
 
 CS = make_candles(60)
@@ -494,7 +526,7 @@ def sc_outro(im, c, t):
 
 
 RENDER = {"title": sc_title, "flow": sc_flow, "network": sc_network, "chain": sc_chain, "number": sc_number,
-          "points": sc_points, "warning": sc_warning, "chart": sc_chart, "outro": sc_outro}
+          "points": sc_points, "compare": sc_compare, "warning": sc_warning, "chart": sc_chart, "outro": sc_outro}
 
 
 # ------------------------------------------------------------------ chrome: brand, Persian subtitle, chapter bar
